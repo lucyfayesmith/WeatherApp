@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Weather App</string>
+    <string name="current_location_here">[Current] location here....</string>
+</resources>

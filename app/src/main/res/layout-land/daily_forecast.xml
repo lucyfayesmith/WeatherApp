@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_description"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#002E3BA1"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.75">
+
+
+    <!--Text view that displays the location for the weather-->
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/current_location_here"
+        android:textColor="#F8F8FF"
+        android:textSize="25sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Icon indicating weather condition
+     ADD FORECAST INFO FROM DB -->
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="245dp"
+        android:layout_height="216dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="140dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:srcCompat="@drawable/cloud" />
+
+    <!-- displays temperature image -->
+
+    <ImageView
+        android:id="@+id/temperature_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="41dp"
+        app:layout_constraintBottom_toTopOf="@+id/wind_speed_image"
+        app:layout_constraintEnd_toStartOf="@+id/temperature"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintVertical_bias="0.103"
+        app:srcCompat="@drawable/temperature" />
+
+    <!-- displays temperature
+    ADD FORECAST INFO FROM DB -->
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="136dp"
+
+        android:layout_marginBottom="28dp"
+        android:paddingLeft="5dp"
+        android:text="30C"
+        android:textColor="#F8F8FF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/wind_speed"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- displays rain image -->
+
+    <ImageView
+        android:id="@+id/rain_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rain_possibility"
+        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon"
+        app:srcCompat="@drawable/rain_drop" />
+
+    <!-- displays rain possibility
+    ADD FORECAST INFO FROM DB -->
+
+    <TextView
+        android:id="@+id/rain_possibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="32dp"
+        android:paddingLeft="5dp"
+        android:text="30%"
+        android:textColor="#F8F8FF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- displays wind image -->
+    <ImageView
+        android:id="@+id/wind_speed_image"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/rain_image"
+        app:layout_constraintEnd_toStartOf="@+id/wind_speed"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/weather_icon"
+        app:srcCompat="@drawable/wind_speed" />
+
+    <!-- displays wind speed
+    ADD FORECAST INFO FROM DB -->
+    <TextView
+        android:id="@+id/wind_speed"
+        android:layout_width="74dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="32dp"
+        android:paddingLeft="5dp"
+        android:text="6km/h"
+        android:textColor="#F8F8FF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/rain_possibility"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
