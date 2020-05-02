@@ -2,7 +2,7 @@
 This is the locations table in the database represented as a ROOM entity.
  */
 
-package com.example.weatherapp;
+package com.example.weatherapp.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

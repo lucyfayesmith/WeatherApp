@@ -2,7 +2,7 @@
 This interface (can be an abstract class as well) is the Data Access Object for the locations table.
 Responsible for SELECT, Insert and Delete functions.
  */
-package com.example.weatherapp;
+package com.example.weatherapp.db.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -10,6 +10,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import com.example.weatherapp.db.entity.Location;
 
 import java.util.List;
 
