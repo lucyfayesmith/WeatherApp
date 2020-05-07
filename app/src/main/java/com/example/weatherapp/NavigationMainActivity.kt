@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -74,27 +75,28 @@ class NavigationMainActivity : AppCompatActivity() {
     }
 
     fun createMenu(navView: NavigationView) {
-        val menu = navView.menu
-        menu.clear()
-        navView.invalidate()
 
         locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
+
         locationViewModel.allLocations.observe(this, Observer { locations ->
             locations?.let {
-                var i = 0
-                for (location in it) {
+                val menu = navView.menu
+                menu.clear()
+                navView.invalidate()
+
+                for(i in 0 until it.size) {
                         val item: MenuItem = menu.add(R.id.locations, i, 0, it.get(i).location)
                         item.setIcon(R.mipmap.ic_launcher)
                         item.isCheckable = true
-                        i++
-
                 }
+
+                val item: MenuItem = menu.add(R.id.misc, 0, 1, "Add Location")
+                item.setIcon(R.drawable.ic_add)
+                item.isCheckable = true
             }
         })
 
-        val item: MenuItem = menu.add(R.id.misc, 0, 1, "Add Location")
-        item.setIcon(R.drawable.ic_add)
-        item.isCheckable = true
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
