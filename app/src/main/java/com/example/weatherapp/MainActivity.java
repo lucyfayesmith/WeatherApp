@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mTemperature = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,31 +82,35 @@ public class MainActivity extends AppCompatActivity {
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_1-512.png");
         mDays.add("Thurs");
+        mTemperature.add("26C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_30-512.png");
         mDays.add("Fri");
+        mTemperature.add("24C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_2-512.png");
         mDays.add("Sat");
+        mTemperature.add("23C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_35-512.png");
         mDays.add("Sun");
+        mTemperature.add("26C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_35-512.png");
         mDays.add("Mon");
+        mTemperature.add("26C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_1-512.png");
         mDays.add("Tues");
+        mTemperature.add("22C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_30-512.png");
         mDays.add("Wed");
+        mTemperature.add("22C");
 
         mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_2-512.png");
         mDays.add("Thurs");
-
-
-
-
+        mTemperature.add("26C");
 
         initRecyclerView();
     }
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        DailyRecyclerViewAdapter adapter = new DailyRecyclerViewAdapter(this, mDays, mImageUrls);
+        DailyRecyclerViewAdapter adapter = new DailyRecyclerViewAdapter(this, mDays, mImageUrls, mTemperature);
         recyclerView.setAdapter(adapter);
     }
 
