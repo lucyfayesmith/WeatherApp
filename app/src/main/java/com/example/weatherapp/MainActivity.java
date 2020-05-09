@@ -22,6 +22,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<String> mTemperature = new ArrayList<>();
 
     private TextView location;
@@ -54,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: started.");
-        getImages();
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -126,7 +127,9 @@ public class MainActivity extends AppCompatActivity {
         temperature.setText(JSONCalls.getTemperature(CURRENT_WEATHER_DATA_JSON));
         wind_speed.setText(JSONCalls.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
         humidity.setText(JSONCalls.getHumidity(CURRENT_WEATHER_DATA_JSON));
-        setImageAccordingToCode(JSONCalls.getIcon(CURRENT_WEATHER_DATA_JSON));
+        weather_icon.setImageResource(getImageFromDrawable(JSONCalls.getIcon(CURRENT_WEATHER_DATA_JSON)));
+        getImages();
+
     }
 
     private Location getLocation() {
@@ -149,27 +152,28 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public void setImageAccordingToCode(String code){
+    public int getImageFromDrawable(String code){
         switch (code){
-            case "01d": weather_icon.setImageResource(R.drawable.a01d); break;
-            case "01n": weather_icon.setImageResource(R.drawable.a01n); break;
-            case "02d": weather_icon.setImageResource(R.drawable.a02d); break;
-            case "02n": weather_icon.setImageResource(R.drawable.a02n); break;
+            case "01d": return R.drawable.a01d;
+            case "01n": return R.drawable.a01n;
+            case "02d": return R.drawable.a02d;
+            case "02n": return R.drawable.a02n;
             case "03d":
             case "03n":
             case "04d":
-            case "04n": weather_icon.setImageResource(R.drawable.a03d); break;
+            case "04n": return R.drawable.a03d;
             case "09d":
-            case "09n": weather_icon.setImageResource(R.drawable.a09d); break;
-            case "10d": weather_icon.setImageResource(R.drawable.a10d); break;
-            case "10n": weather_icon.setImageResource(R.drawable.a10n); break;
+            case "09n": return R.drawable.a09d;
+            case "10d": return R.drawable.a10d;
+            case "10n": return R.drawable.a10n;
             case "11d":
-            case "11n": weather_icon.setImageResource(R.drawable.a11d); break;
+            case "11n": return R.drawable.a11d;
             case "13d":
-            case "13n": weather_icon.setImageResource(R.drawable.a13d); break;
+            case "13n": return R.drawable.a13d;
             case "50d":
-            case "50n": weather_icon.setImageResource(R.drawable.a50d); break;
+            case "50n": return R.drawable.a50d;
         }
+        return R.drawable.a01d;
     }
 
     protected void warnNoGps() {
@@ -194,14 +198,23 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
         String[] days = {"Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
+        String[] dailyTemp = new String[7];
+        String[] dailyIcon = new String[7];
 
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK)-1;
 
+        try {
+            dailyTemp= JSONCalls.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
+            dailyIcon = JSONCalls.getDailyIcons(ONECALL_WEATHER_DATA_JSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         for (int i=0; i<=6; i++){
-            mImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_1-512.png");
+            mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
             mDays.add(days[day % 7]);
-            mTemperature.add("2");
+            mTemperature.add(dailyTemp[i]);
             day++;
         }
 
