@@ -30,6 +30,50 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //TODO: The data used in the getImages below has to be retrieved from weather database,
     // it should retrieve forecast for next 7 days and store it, thus should be 7 days stored with respective image displaying forecast
     private void getImages(){
