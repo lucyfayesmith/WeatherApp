@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -20,12 +22,14 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
     private static final String TAG = "DailyRecyclerViewAdapter";
 
     //vars
+    private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDays = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    //private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mTemperature = new ArrayList<>();
     private Context mContext;
 
-    public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<String> imageUrls, ArrayList<String> temp) {
+    //public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<String> imageUrls, ArrayList<String> temp) {
+    public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
         mDays = days;
         mImageUrls = imageUrls;
         mTemperature = temp;
