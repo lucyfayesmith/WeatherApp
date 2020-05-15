@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#B3485bbd"
     android:padding="@dimen/widget_margin">
 
@@ -18,24 +19,42 @@
 <!--        android:textSize="24sp"-->
 <!--        android:textStyle="bold|italic" />-->
     <LinearLayout
+        android:id="@+id/mainLine"
+        style="@style/AppWidgetLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mainLine"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        style="@style/AppWidgetLine">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/weather_icon"
             style="@style/AppWidgetWeatherIcon"
             android:src="@drawable/cloud" />
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="26&#xb0;"
-            style="@style/AppwidgetTemper">
-        </TextView>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/AppWidgetTemper"
+                style="@style/AppWidgetTemper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AppWidgetTemper">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/AppWidgetCity"
+                style="@style/AppWidgetCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/AppWidgetCityName">
+
+            </TextView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -43,6 +62,6 @@
     <!--        app:layout_constraintEnd_toEndOf="parent"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toBottomOf="@+id/location"-->
-    android:layout_width="245dp"
-    android:layout_height="216dp"
+<!--    android:layout_width="245dp"-->
+<!--    android:layout_height="216dp"-->
 </RelativeLayout>

@@ -12,12 +12,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <include
-        layout="@layout/daily_forecast"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
-
         //Progress Bar for loading times
+
+        <include
+            layout="@layout/daily_forecast"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
         <ProgressBar
             android:id="@+id/loading_indicator"
             android:layout_height="50dp"
