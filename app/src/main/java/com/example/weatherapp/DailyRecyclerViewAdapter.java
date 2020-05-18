@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -20,13 +22,17 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
     private static final String TAG = "DailyRecyclerViewAdapter";
 
     //vars
+    private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDays = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    //private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<String> mTemperature = new ArrayList<>();
     private Context mContext;
 
-    public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<String> imageUrls) {
+    //public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<String> imageUrls, ArrayList<String> temp) {
+    public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
         mDays = days;
         mImageUrls = imageUrls;
+        mTemperature = temp;
         mContext = context;
     }
 
@@ -49,6 +55,8 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
                 .into(holder.weather); //referencing viewHolder because the widgets are saved in memory in viewHolder class
 
         holder.day.setText(mDays.get(position));
+
+        holder.temperature.setText(mTemperature.get(position));
     }
 
     @Override
@@ -60,11 +68,13 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
 
         CircleImageView weather;
         TextView day;
+        TextView temperature;
 
         public ViewHolder(View itemView) {
             super(itemView);
             weather = itemView.findViewById(R.id.image);
             day = itemView.findViewById(R.id.day);
+            temperature = itemView.findViewById(R.id.temperature);
 
         }
     }

@@ -1,54 +1,15 @@
-/*
-Data repository of the app.
-Either chooses to retrieve data from the database or network (Weather API).
- */
 package com.example.weatherapp;
 
-import android.app.Application;
-
-import androidx.lifecycle.LiveData;
-
-import com.example.weatherapp.db.WeatherAppRoomDatabase;
-import com.example.weatherapp.db.dao.LocationDao;
-import com.example.weatherapp.db.entity.Location;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+//  Example for current weather API: https://api.openweathermap.org/data/2.5/weather?lat=37&lon=-122&appid=549fb53c7c192bf46ad12689b7eed108
+//  Example for ONE CALL API : https://api.openweathermap.org/data/2.5/onecall?lat=37&lon=-122&appid=549fb53c7c192bf46ad12689b7eed108
 
-public class WeatherAppRepository {
+public class JSONCalls {
 
-    private LocationDao mLocationDao;
-    private LiveData<List<Location>> mAllLocations;
-
-    WeatherAppRepository(Application application) {
-        WeatherAppRoomDatabase db = WeatherAppRoomDatabase.getDatabase(application);
-        mLocationDao = db.locationDao();
-        mAllLocations = mLocationDao.getLocations();
-    }
-
-    // Room executes all queries on a separate thread.
-    // Observed LiveData will notify the observer when the data has changed.
-    LiveData<List<Location>> getAllLocations() {
-        return mAllLocations;
-    }
-
-    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-    // that you're not doing any long running operations on the main thread, blocking the UI.
-    void insertLocation(Location location) {
-        WeatherAppRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mLocationDao.insertLocation(location);
-        });
-    }
-
-    void deleteLocation(Location location) {
-        WeatherAppRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mLocationDao.deleteLocation(location);
-        });
-    }
-
-    String getLocationName(String jsonString) throws JSONException {
+    protected static String getLocationName(String jsonString) throws JSONException {
         JSONObject obj = new JSONObject(jsonString);
         JSONObject sys = obj.getJSONObject("sys");
 
@@ -59,7 +20,7 @@ public class WeatherAppRepository {
 
     }
 
-    String getTemperature(String jsonString) throws  JSONException{
+    protected static String getTemperature(String jsonString) throws  JSONException{
         JSONObject tempJSON = new JSONObject(jsonString);
         JSONObject main = tempJSON.getJSONObject("main");
 
@@ -70,7 +31,7 @@ public class WeatherAppRepository {
         return (tempInt+"\u00B0");
     }
 
-    String getWindSpeed(String jsonString) throws  JSONException{
+    protected static String getWindSpeed(String jsonString) throws  JSONException{
         JSONObject obj = new JSONObject(jsonString);
         JSONObject wind = obj.getJSONObject("wind");
 
@@ -78,7 +39,7 @@ public class WeatherAppRepository {
         return (speed +"km/h");
     }
 
-    String getHumidity(String jsonString) throws  JSONException{
+    protected static String getHumidity(String jsonString) throws  JSONException{
         JSONObject tempJSON = new JSONObject(jsonString);
         JSONObject main = tempJSON.getJSONObject("main");
 
@@ -88,7 +49,7 @@ public class WeatherAppRepository {
         return (humidity +"%");
     }
 
-    String getIcon(String jsonString) throws JSONException{
+    protected static String getIcon(String jsonString) throws JSONException{
         JSONObject tempJSON = new JSONObject(jsonString);
 
         JSONArray weather = tempJSON.getJSONArray("weather");
@@ -96,7 +57,7 @@ public class WeatherAppRepository {
         return weather.getJSONObject(0).getString("icon");
     }
 
-    String[] getDailyTemperatures(String jsonString) throws  JSONException{
+    protected static String[] getDailyTemperatures(String jsonString) throws  JSONException{
         String dailyTemp[]= new String[7];
         JSONObject tempJSON = new JSONObject(jsonString);
 
@@ -114,7 +75,7 @@ public class WeatherAppRepository {
         return dailyTemp;
     }
 
-    String[] getDailyIcons(String jsonString) throws  JSONException{
+    protected static String[] getDailyIcons(String jsonString) throws  JSONException{
         String dailyIcon[]= new String[7];
         JSONObject tempJSON = new JSONObject(jsonString);
 
@@ -128,5 +89,4 @@ public class WeatherAppRepository {
 
         return dailyIcon;
     }
-
 }

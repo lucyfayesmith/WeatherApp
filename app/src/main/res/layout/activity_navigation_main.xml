@@ -6,20 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer"
-    tools:context=".NavigationMainActivity">
+    tools:context=".NavigationMainActivity"
+    android:background="@color/colorAccent">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:title=""
             app:titleTextColor="@android:color/white"
-            android:background="?attr/colorPrimary">
+            >
         </androidx.appcompat.widget.Toolbar>
+
+
+        <include
+            layout="@layout/daily_forecast"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
