@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
         humidity.setText(JSONCalls.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(JSONCalls.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
-
     }
 
     private Location getLocation() {
