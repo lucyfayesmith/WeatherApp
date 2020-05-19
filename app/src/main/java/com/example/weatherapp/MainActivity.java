@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +37,6 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_main);
+        setContentView(R.layout.activity_main);
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
 
-
         setupToolbar();
         createMenu(navigationView);
 
@@ -99,13 +95,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, NewLocationActivity.class);
                 startActivityForResult(intent, newLocationActivityRequestCode);
                 return true;
+            } else if (item.getTitle().equals("Current Location")){
+                currentLocationData();
             }
-           else{
-                try {
-                    makeSearchQueryMenu(item.getTitle().toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            else {
+                makeSearchQueryMenu(item.getTitle().toString());
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -120,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
         temperature = (TextView) findViewById(R.id.temperature);
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
+        currentLocationData();
+    }
+
+    private void currentLocationData(){
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             warnNoGps();
@@ -127,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             makeSearchQuery();
         }
     }
+
 
     private void createMenu(NavigationView navigationView) {
 
@@ -137,13 +136,17 @@ public class MainActivity extends AppCompatActivity {
             menu.clear();
             navigationView.invalidate();
 
-            for (int i = 0; i < locations.size(); i++) {
-                MenuItem item = menu.add(R.id.locations, i, 0, locations.get(i).getLocation());
+            MenuItem item = menu.add(R.id.locations, 0, 0, "Current Location");
+            item.setIcon(R.mipmap.ic_launcher);
+            item.setCheckable(true);
+
+            for (int i = 1; i < locations.size(); i++) {
+                item = menu.add(R.id.locations, i, 0, locations.get(i).getLocation());
                 item.setIcon(R.mipmap.ic_launcher);
                 item.setCheckable(true);
             }
 
-            MenuItem item = menu.add(R.id.misc, 0, 1, "Add Location");
+            item = menu.add(R.id.misc, 0, 1, "Add Location");
             item.setIcon(R.drawable.ic_add);
             item.setCheckable(true);
         });
@@ -174,7 +177,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == newLocationActivityRequestCode && resultCode == RESULT_OK) {
             com.example.weatherapp.db.entity.Location location = new com.example.weatherapp.db.entity.Location(data.getStringExtra(NewLocationActivity.EXTRA_REPLY));
-            locationViewModel.insert(location);
+            new cityExistsTask().execute(location);
+
+
         } else {
             Toast.makeText(
                     getApplicationContext(),
@@ -183,70 +188,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void makeSearchQueryMenu(String location) throws IOException {
-        Location menuLocation = null;
-
-        Geocoder geocoder = new Geocoder(this);
-        List<Address> addresses = geocoder.getFromLocationName(location,1);
-
-        for(Address a : addresses){
-            if(a.hasLatitude() && a.hasLongitude()){
-                menuLocation.setLatitude(a.getLatitude());
-                menuLocation.setLongitude(a.getLongitude());
-            }
-        }
-
-        URL oneCallUrl = NetworkCalls.buildUrlOneCall(menuLocation);
-        URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(menuLocation);
-        new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
-
+    private void makeSearchQueryMenu(String location) {
+        new GeocodingTask(this).execute(location);
     }
+
     private void makeSearchQuery() {
         URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation());
         URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(getLocation());
         new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
-    }
-
-    public class currentWeatherQueryTask extends AsyncTask<URL, Void, String[]> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            LoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String[] doInBackground(URL... urls) {
-            URL oneCallUrl = urls[0];
-            URL currentWeatherUrl = urls[1];
-            String oneCall = null;
-            String currentWether = null;
-            try {
-                oneCall = NetworkCalls.getResponseFromHttpUrl(oneCallUrl);
-                currentWether = NetworkCalls.getResponseFromHttpUrl(currentWeatherUrl);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return new String[]{oneCall, currentWether};
-        }
-
-        @Override
-        protected void onPostExecute(String s[]) {
-            LoadingIndicator.setVisibility(View.INVISIBLE);
-
-            if (s != null && !s.equals("")) {
-                ONECALL_WEATHER_DATA_JSON = s[0];
-                CURRENT_WEATHER_DATA_JSON = s[1];
-                try {
-                    updateMainScreen();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(MainActivity.this, "Error getting data. Please try again", Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     public void updateMainScreen() throws JSONException {
@@ -378,4 +327,126 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
+
+    private class GeocodingTask extends AsyncTask<String, Void, Object> {
+        Context mContext;
+
+        public GeocodingTask(Context context) {
+            super();
+            mContext = context;
+        }
+
+        //Make the geocoder call in the background
+        protected Object doInBackground(String... locations) {
+            Geocoder geocoder = new Geocoder(mContext);
+
+            List<Address> addresses = null;
+            String location = locations[0];
+
+            try {
+                addresses = geocoder.getFromLocationName(location, 100);
+                Log.d("ListOfAddresses", addresses.toString());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (addresses.isEmpty())
+                return new Object();
+
+            return addresses.get(0);
+        }
+
+        protected void onPostExecute(Object addressObject) {
+
+            if (addressObject.getClass() == Address.class) {
+                Address address = (Address) addressObject;
+                Location menuLocation = new Location("");
+                Log.d("AddressLat", "" + address.getLatitude());
+                Log.d("AddressLong", "" + address.getLongitude());
+
+                menuLocation.setLatitude(address.getLatitude());
+                menuLocation.setLongitude(address.getLongitude());
+
+                URL oneCallUrl = NetworkCalls.buildUrlOneCall(menuLocation);
+                URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(menuLocation);
+                new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
+            }
+
+        }
+
+    }
+
+    public class currentWeatherQueryTask extends AsyncTask<URL, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String[] doInBackground(URL... urls) {
+            URL oneCallUrl = urls[0];
+            URL currentWeatherUrl = urls[1];
+            String oneCall = null;
+            String currentWether = null;
+            try {
+                oneCall = NetworkCalls.getResponseFromHttpUrl(oneCallUrl);
+                currentWether = NetworkCalls.getResponseFromHttpUrl(currentWeatherUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return new String[]{oneCall, currentWether};
+        }
+
+        @Override
+        protected void onPostExecute(String s[]) {
+            LoadingIndicator.setVisibility(View.INVISIBLE);
+
+            if (s != null && !s.equals("")) {
+                Log.d("JsonData", s[1]);
+                ONECALL_WEATHER_DATA_JSON = s[0];
+                CURRENT_WEATHER_DATA_JSON = s[1];
+                try {
+                    updateMainScreen();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(MainActivity.this, "Error getting data. Please try again", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public class cityExistsTask extends AsyncTask<com.example.weatherapp.db.entity.Location, Void, Object> {
+
+        @Override
+        protected Object doInBackground(com.example.weatherapp.db.entity.Location... locations) {
+            URL checkIfCityExistsURL = NetworkCalls.checkIfCityExistsCall(locations[0].getLocation());
+            String checkIfCityExists = null;
+
+            try {
+                checkIfCityExists = NetworkCalls.getResponseFromHttpUrl(checkIfCityExistsURL);
+            } catch (IOException e) {
+                return new Object();
+            }
+            return locations[0];
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            if (o.getClass() == com.example.weatherapp.db.entity.Location.class)
+                locationViewModel.insert((com.example.weatherapp.db.entity.Location) o);
+            else {
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Invalid City",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 }

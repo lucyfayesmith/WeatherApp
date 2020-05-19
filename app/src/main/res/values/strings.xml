@@ -9,7 +9,7 @@
     <string name="close">close</string>
     <string name="add_location">Add Location</string>
 
-    <string name="hint_location">Location…</string>
+    <string name="hint_location">City…</string>
     <string name="button_save">Save</string>
-    <string name="empty_not_saved">Location not saved because it is empty.</string>
+    <string name="empty_not_saved">City not saved because it is empty.</string>
 </resources>

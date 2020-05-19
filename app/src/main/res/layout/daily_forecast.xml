@@ -9,13 +9,6 @@
     android:orientation="vertical"
     app:layout_constraintGuide_percent="0.75">
 
-
-    <!--Text view that displays the location for the weather-->
-
-
-    <!--    displays temperature
-           ADD FORECAST INFO FROM DB-->
-
     <TextView
         android:id="@+id/location"
         android:layout_width="wrap_content"
