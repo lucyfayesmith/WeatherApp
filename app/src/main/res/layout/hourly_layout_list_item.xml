@@ -14,7 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#2e3ba1">
+            android:background="@color/colorAccent">
 
             <TextView
                 android:id="@+id/hour"
@@ -24,7 +24,7 @@
                 android:layout_alignParentTop="true"
                 android:gravity="center"
                 android:paddingTop="15dp"
-                android:text="Thurs"
+                android:text="8:00"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp" />
 

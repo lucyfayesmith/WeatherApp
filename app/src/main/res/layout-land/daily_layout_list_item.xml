@@ -18,7 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#2e3ba1">
+            android:background="@color/colorAccent">
 
             <TextView
                 android:id="@+id/day"
@@ -34,12 +34,11 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_below="@id/day"
-                android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/sun" />
 

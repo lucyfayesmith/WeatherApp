@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#002E3BA1"
-    android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.75">
+    android:orientation="horizontal">
 
 
     <!--Text view that displays the location for the weather-->
@@ -70,8 +69,6 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <!-- displays rain image -->
-
     <ImageView
         android:id="@+id/rain_image"
         android:layout_width="30dp"
@@ -83,9 +80,6 @@
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toEndOf="@+id/weather_icon"
         app:srcCompat="@drawable/rain_drop" />
-
-    <!-- displays rain possibility
-    ADD FORECAST INFO FROM DB -->
 
     <TextView
         android:id="@+id/rain_possibility"

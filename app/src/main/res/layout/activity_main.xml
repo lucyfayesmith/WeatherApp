@@ -9,6 +9,7 @@
     tools:context=".MainActivity"
     android:background="@color/colorAccent">
 
+
     <LinearLayout
         android:id="@+id/mainLayout"
         android:layout_width="wrap_content"
@@ -46,6 +47,8 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
+
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

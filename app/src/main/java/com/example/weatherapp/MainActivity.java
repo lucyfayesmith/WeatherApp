@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView weather_icon;
 
     LocationManager locationManager;
+    LinearLayout mainLayout;
+
 
     private static final int REQUEST_LOCATION = 1;
     private static String CURRENT_WEATHER_DATA_JSON;
@@ -114,6 +118,16 @@ public class MainActivity extends AppCompatActivity {
         temperature = (TextView) findViewById(R.id.temperature);
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
+        //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: mainLayout");
+                launchActivity();
+            }
+        });
+
         currentLocationData();
     }
 
@@ -123,6 +137,23 @@ public class MainActivity extends AppCompatActivity {
             warnNoGps();
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             makeSearchQuery();
+        }
+    }
+
+    private void launchActivity(){
+        Log.d(TAG, "launchActivity: activityDetails");
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
 
