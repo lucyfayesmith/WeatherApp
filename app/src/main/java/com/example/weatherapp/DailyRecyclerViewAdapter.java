@@ -24,11 +24,9 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
     //vars
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDays = new ArrayList<>();
-    //private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mTemperature = new ArrayList<>();
     private Context mContext;
 
-    //public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<String> imageUrls, ArrayList<String> temp) {
     public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
         mDays = days;
         mImageUrls = imageUrls;

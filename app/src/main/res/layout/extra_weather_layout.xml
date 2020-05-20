@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/extra_weather"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:background="#002E3BA1"
+    android:orientation="vertical"
+    android:layout_marginLeft="100dp">
+
+
+    <!--  Sunrise image  -->
+    <ImageView
+        android:id="@+id/sunrise_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/sunrise_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sunrise" />
+
+    <!-- Sunrise time -->
+    <TextView
+        android:id="@+id/sunrise_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sunrise_image"
+        app:layout_constraintLeft_toRightOf="@id/sunrise_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="6:30am"
+        android:textColor="#000000"/>
+
+    <!-- Sunset Image -->
+    <ImageView
+        android:id="@+id/sunset_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/sunset_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sunrise_image"
+        app:srcCompat="@drawable/sunset" />
+
+    <!-- Sunset Time -->
+    <TextView
+        android:id="@+id/sunset_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sunset_image"
+        app:layout_constraintLeft_toRightOf="@id/sunset_image"
+        app:layout_constraintTop_toBottomOf="@id/sunrise_time"
+        tools:text="7:40pm"
+        android:textColor="#000000"/>
+
+    <!-- Current Temperature Image -->
+
+    <!-- Current Temperature value -->
+
+    <ImageView
+        android:id="@+id/max_temp_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sunset_image"
+        app:srcCompat="@drawable/max_temperature" />
+
+    <TextView
+        android:id="@+id/max_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@id/max_temp_image"
+        app:layout_constraintTop_toBottomOf="@id/sunset_time"
+        app:layout_constraintBottom_toBottomOf="@+id/max_temp_image"
+        tools:layout_editor_absoluteX="220dp"
+        tools:text="25&#xb0;" />
+
+    <ImageView
+        android:id="@+id/min_temp_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/min_temp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/max_temp_image" />
+
+    <TextView
+        android:id="@+id/min_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@id/min_temp_image"
+        app:layout_constraintTop_toBottomOf="@id/max_temp"
+        app:layout_constraintBottom_toBottomOf="@+id/min_temp_image"
+        tools:text="25&#xb0;" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

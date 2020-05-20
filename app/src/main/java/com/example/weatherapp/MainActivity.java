@@ -2,6 +2,7 @@ package com.example.weatherapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private static String CURRENT_WEATHER_DATA_JSON;
     private static String ONECALL_WEATHER_DATA_JSON;
 
+    LinearLayout mainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
+
         LoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
         location = (TextView) findViewById(R.id.location);
         wind_speed = (TextView) findViewById(R.id.wind_speed);
@@ -66,13 +71,29 @@ public class MainActivity extends AppCompatActivity {
         temperature = (TextView) findViewById(R.id.temperature);
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             warnNoGps();
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             makeSearchQuery();
         }
+
+        //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
+        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchActivity();
+            }
+        });
     }
+
+    private void launchActivity(){
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
+    }
+
 
     private void makeSearchQuery( ) {
         URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation());
@@ -93,15 +114,15 @@ public class MainActivity extends AppCompatActivity {
             URL oneCallUrl = urls[0];
             URL currentWeatherUrl= urls[1];
             String oneCall = null;
-            String currentWether = null;
+            String currentWeather = null;
             try{
                 oneCall = NetworkCalls.getResponseFromHttpUrl(oneCallUrl);
-                currentWether = NetworkCalls.getResponseFromHttpUrl(currentWeatherUrl);
+                currentWeather = NetworkCalls.getResponseFromHttpUrl(currentWeatherUrl);
             }catch (IOException e){
                 e.printStackTrace();
             }
 
-            return new String[] {oneCall, currentWether};
+            return new String[] {oneCall, currentWeather};
         }
 
         @Override
@@ -117,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(MainActivity.this,"Error getting data. Please try again",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"Error retrieving data. Please try again",Toast.LENGTH_LONG).show();
             }
         }
     }
