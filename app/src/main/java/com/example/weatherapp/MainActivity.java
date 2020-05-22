@@ -15,6 +15,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Address;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,7 +50,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences pref;
     private static final String TAG = "MainActivity";
+    private static final String SELECTED_UNIT = "SelectedUnit";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
     private static String CURRENT_WEATHER_DATA_JSON;
     private static String ONECALL_WEATHER_DATA_JSON;
+    private int unitPreference;
 
     private WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
@@ -80,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
+
+
+        unitPreference =pref.getInt(SELECTED_UNIT,0);
+
+
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
@@ -99,10 +110,18 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, NewLocationActivity.class);
                 startActivityForResult(intent, newLocationActivityRequestCode);
                 return true;
-            } else if (item.getTitle().equals("Current Location")){
+            } else if (item.getTitle().equals("Current Location")) {
                 currentLocationData();
-            }
-            else {
+            } else if (item.getGroupId() == R.id.unit) {
+                if(item.getTitle().equals("Metric"))
+                    unitPreference = 0;
+                if(item.getTitle().equals("Imperial"))
+                    unitPreference = 1;
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt(SELECTED_UNIT, unitPreference);
+                editor.apply();
+                makeSearchQuery();
+            } else {
                 makeSearchQueryMenu(item.getTitle().toString());
             }
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -131,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         currentLocationData();
     }
 
-    private void currentLocationData(){
+    private void currentLocationData() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             warnNoGps();
@@ -140,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void launchActivity(){
+    private void launchActivity() {
         Log.d(TAG, "launchActivity: activityDetails");
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
@@ -152,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
@@ -177,9 +196,19 @@ public class MainActivity extends AppCompatActivity {
                 item.setCheckable(true);
             }
 
-            item = menu.add(R.id.misc, 0, 1, "Add Location");
+            item = menu.add(R.id.add_location, 0, 1, "Add Location");
             item.setIcon(R.drawable.ic_add);
             item.setCheckable(true);
+
+            item = menu.add(R.id.unit, 0, 1, "Metric");
+            item.setIcon(R.mipmap.ic_launcher);
+            item.setCheckable(true);
+
+            item = menu.add(R.id.unit, 0, 2, "Imperial");
+            item.setIcon(R.mipmap.ic_launcher);
+            item.setCheckable(true);
+
+
         });
     }
 
@@ -224,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeSearchQuery() {
-        URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation());
-        URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(getLocation());
+        URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation(), unitPreference);
+        URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(getLocation(), unitPreference);
         new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
     }
 
@@ -376,8 +405,6 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 addresses = geocoder.getFromLocationName(location, 100);
-                Log.d("ListOfAddresses", addresses.toString());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -399,8 +426,8 @@ public class MainActivity extends AppCompatActivity {
                 menuLocation.setLatitude(address.getLatitude());
                 menuLocation.setLongitude(address.getLongitude());
 
-                URL oneCallUrl = NetworkCalls.buildUrlOneCall(menuLocation);
-                URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(menuLocation);
+                URL oneCallUrl = NetworkCalls.buildUrlOneCall(menuLocation, unitPreference);
+                URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(menuLocation, unitPreference);
                 new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
             }
 

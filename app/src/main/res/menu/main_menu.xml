@@ -7,8 +7,12 @@
         android:checkableBehavior="single" />
 
 
-    <group android:id="@+id/misc"/>
+    <group android:id="@+id/add_location"/>
 
+
+    <group
+        android:id="@+id/unit"
+        android:checkableBehavior="single"/>
 
 
 </menu>

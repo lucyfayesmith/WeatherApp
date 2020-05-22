@@ -65,7 +65,6 @@ public class WeatherAppRepository {
 
         Double tempDouble = main.getDouble("temp");
         int tempInt = (int) Math.round(tempDouble);
-        tempInt-=273;
 
         return (tempInt+"\u00B0");
     }

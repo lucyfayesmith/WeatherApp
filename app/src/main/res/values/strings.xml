@@ -12,4 +12,5 @@
     <string name="hint_location">City…</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">City not saved because it is empty.</string>
+    <string name="unit_of_preference">Unit of Preference</string>
 </resources>

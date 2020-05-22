@@ -39,13 +39,21 @@ public class NetworkCalls {
     }
 
 
-    public static URL buildUrlOneCall(Location location) {
+    public static URL buildUrlOneCall(Location location,int unitPreference) {
+        String selectedUnit = null;
+        if(unitPreference==0){
+            selectedUnit = "metric";
+        }else if (unitPreference == 1){
+            selectedUnit = "imperial";
+        }
+
         String lon =  location.getLongitude() + "";
         String lat =  location.getLatitude() + "";
 
         Uri builtUri = Uri.parse(ONE_CALL_API).buildUpon()
                 .appendQueryParameter("lat",lat)
                 .appendQueryParameter("lon",lon)
+                .appendQueryParameter("units",selectedUnit)
                 .appendQueryParameter("appid",API_KEY)
                 .build();
 
@@ -58,13 +66,22 @@ public class NetworkCalls {
         return url;
     }
 
-    public static URL buildUrlCurrent(Location location) {
+    public static URL buildUrlCurrent(Location location,int unitPreference) {
+
+        String selectedUnit = null;
+        if(unitPreference==0){
+            selectedUnit = "metric";
+        }else if (unitPreference == 1){
+            selectedUnit = "imperial";
+        }
+
         String lon =  location.getLongitude() + "";
         String lat =  location.getLatitude() + "";
 
         Uri builtUri = Uri.parse(CURRENT_WEATHER_API).buildUpon()
                 .appendQueryParameter("lat",lat)
                 .appendQueryParameter("lon",lon)
+                .appendQueryParameter("units",selectedUnit)
                 .appendQueryParameter("appid",API_KEY)
                 .build();
 
