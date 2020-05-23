@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer"
     tools:context=".MainActivity"
-    android:background="@color/colorAccent">
-
+    android:background="#485cbd">
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -41,14 +40,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:background="#2e3ca2"/>
 
     </LinearLayout>
-
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

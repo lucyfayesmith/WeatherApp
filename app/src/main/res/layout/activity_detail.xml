@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
+    android:background="#485cbd"
     tools:context=".DetailActivity"
     android:weightSum="100"
     android:configChanges="orientation|screenSize|keyboardHidden">
@@ -24,17 +24,18 @@
         android:layout_height="0dp"
         android:layout_weight="70"
         android:layout_width="wrap_content"
-        android:layout_marginLeft="100dp"/>
+        android:layout_marginLeft="100dp"
+        />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="25"
-            android:orientation="horizontal"
-            android:background="@color/colorAccent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="25"
+        android:orientation="horizontal"
+        android:background="#2e3ca2">
 
-        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
 
