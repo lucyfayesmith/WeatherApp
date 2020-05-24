@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
@@ -20,7 +22,8 @@ public class DetailActivity extends AppCompatActivity {
     private ArrayList<String> mHours = new ArrayList<>();
     private ArrayList<String> ImageUrls = new ArrayList<>();
     private ArrayList<String> mTemp = new ArrayList<>();
-
+    TextView mSunriseTime, mSunsetTime, mMaxTemp, mMinTemp;
+    private WeatherAppRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +33,24 @@ public class DetailActivity extends AppCompatActivity {
 
         getImages(); //collecting hourly weather data with relevant images
 
-        TextView textView1 = (TextView) findViewById(R.id.sunrise_time);
-        textView1.setTextSize(30);
-        textView1.setText("6:30am");
+        mSunriseTime = findViewById(R.id.sunrise_time);
+        mSunsetTime= findViewById(R.id.sunset_time);
+        mMaxTemp = findViewById(R.id.max_temp);
+        mMinTemp =  findViewById(R.id.min_temp);
+        repository = new WeatherAppRepository(getApplication());
 
-        TextView textView2 = (TextView) findViewById(R.id.sunset_time);
-        textView2.setTextSize(30);
-        textView2.setText("7:00pm");
+        try {
+            updateMainScreen();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-        TextView textView3 = (TextView) findViewById(R.id.max_temp);
-        textView3.setTextSize(30);
-        textView3.setText("25C");
-
-        TextView textView4 = (TextView) findViewById(R.id.min_temp);
-        textView4.setTextSize(30);
-        textView4.setText("10C");
-
-
+    private void updateMainScreen() throws JSONException {
+        mSunriseTime.setText(repository.getSunrise(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mSunsetTime.setText(repository.getSunset(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mMaxTemp.setText(repository.getMaxTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mMinTemp.setText(repository.getMinTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));
     }
 
     private void launch_Activity(){

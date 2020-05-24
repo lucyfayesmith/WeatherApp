@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class WeatherAppRepository {
@@ -106,7 +108,6 @@ public class WeatherAppRepository {
             JSONObject tempThisDay = thisDay.getJSONObject("temp");
             Double tempDouble= tempThisDay.getDouble("day");
             int tempInt = (int) Math.round(tempDouble);
-            tempInt-=273;
             dailyTemp[i]=(tempInt + "\u00B0");
         }
 
@@ -127,5 +128,55 @@ public class WeatherAppRepository {
 
         return dailyIcon;
     }
+
+    String getMaxTemperature(String jsonString) throws  JSONException{
+        JSONObject tempJSON = new JSONObject(jsonString);
+        JSONObject main = tempJSON.getJSONObject("main");
+
+        Double tempDouble = main.getDouble("temp_max");
+        int tempInt = (int) Math.round(tempDouble);
+
+        return (tempInt+"\u00B0");
+    }
+
+    String getMinTemperature(String jsonString) throws  JSONException{
+        JSONObject tempJSON = new JSONObject(jsonString);
+        JSONObject main = tempJSON.getJSONObject("main");
+
+        Double tempDouble = main.getDouble("temp_min");
+        int tempInt = (int) Math.round(tempDouble);
+
+        return (tempInt+"\u00B0");
+    }
+
+    String getSunrise(String jsonString) throws JSONException {
+        JSONObject obj = new JSONObject(jsonString);
+        JSONObject sys = obj.getJSONObject("sys");
+
+        int timezone = obj.getInt("timezone");
+        long sunrise = sys.getLong("sunrise");
+
+        Date date = new java.util.Date(sunrise*1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        //sdf.setTimeZone(timezone);
+        String formattedDate = sdf.format(date);
+        return (formattedDate );
+
+    }
+
+    String getSunset(String jsonString) throws JSONException {
+        JSONObject obj = new JSONObject(jsonString);
+        JSONObject sys = obj.getJSONObject("sys");
+
+        int timezone = obj.getInt("timezone");
+        long sunset = sys.getLong("sunset");
+
+        Date date = new java.util.Date(sunset*1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        //sdf.setTimeZone(timezone.getRawOffset());
+        String formattedDate = sdf.format(date);
+        return (formattedDate );
+    }
+
 
 }

@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_LOCATION = 1;
-    private static String CURRENT_WEATHER_DATA_JSON;
-    private static String ONECALL_WEATHER_DATA_JSON;
+    public static String CURRENT_WEATHER_DATA_JSON;
+    public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
     private WeatherAppRepository repository;
@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         unitPreference =pref.getInt(SELECTED_UNIT,0);
-
 
 
         Log.d(TAG, "onCreate: started.");
@@ -175,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void createMenu(NavigationView navigationView) {
 
