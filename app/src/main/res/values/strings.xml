@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Weather App</string>
     <string name="current_location_here">[Current] location here....</string>
+    <string name="communicate">Communicate</string>
+    <string name="home">Home</string>
+    <string name="gallery">Gallery</string>
+    <string name="share">Share</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="add_location">Add Location</string>
+
+    <string name="hint_location">City…</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">City not saved because it is empty.</string>
+    <string name="unit_of_preference">Unit of Preference</string>
 </resources>

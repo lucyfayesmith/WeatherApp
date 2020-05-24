@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ExtraLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    tools:context=".DetailActivity"
+    android:weightSum="100"
+    android:configChanges="orientation|screenSize|keyboardHidden">
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="5"
+        android:visibility="invisible" />
+
+    <include
+        layout="@layout/extra_weather_layout"
+        android:layout_height="0dp"
+        android:layout_weight="70"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="100dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:background="@color/colorAccent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
+

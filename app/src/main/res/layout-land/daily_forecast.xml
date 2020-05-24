@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#002E3BA1"
-    android:orientation="vertical"
-    app:layout_constraintGuide_percent="0.75">
+    android:orientation="horizontal">
 
 
     <!--Text view that displays the location for the weather-->
@@ -38,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/location"
         app:srcCompat="@drawable/cloud" />
 
-    <!-- displays temperature image -->
+    <!-- displays max_temperature image -->
 
     <ImageView
         android:id="@+id/temperature_image"
@@ -52,16 +51,15 @@
         app:layout_constraintStart_toEndOf="@+id/weather_icon"
         app:layout_constraintTop_toBottomOf="@+id/location"
         app:layout_constraintVertical_bias="0.103"
-        app:srcCompat="@drawable/temperature" />
+        app:srcCompat="@drawable/max_temperature" />
 
-    <!-- displays temperature
+    <!-- displays max_temperature
     ADD FORECAST INFO FROM DB -->
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="136dp"
-
         android:layout_marginBottom="28dp"
         android:paddingLeft="5dp"
         android:text="30C"
@@ -70,8 +68,6 @@
         app:layout_constraintBottom_toTopOf="@+id/wind_speed"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <!-- displays rain image -->
 
     <ImageView
         android:id="@+id/rain_image"
@@ -84,9 +80,6 @@
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toEndOf="@+id/weather_icon"
         app:srcCompat="@drawable/rain_drop" />
-
-    <!-- displays rain possibility
-    ADD FORECAST INFO FROM DB -->
 
     <TextView
         android:id="@+id/rain_possibility"

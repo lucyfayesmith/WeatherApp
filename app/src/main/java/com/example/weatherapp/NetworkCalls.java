@@ -23,13 +23,9 @@ public class NetworkCalls {
     final static String SECOND_API_KEY = "bbacb51aa2d6511cd7eab0abdfec1048";
 
 
-    public static URL buildUrlOneCall(Location location) {
-        String lon = (int) location.getLongitude() + "";
-        String lat = (int) location.getLatitude() + "";
-
-        Uri builtUri = Uri.parse(ONE_CALL_API).buildUpon()
-                .appendQueryParameter("lat",lat)
-                .appendQueryParameter("lon",lon)
+    public static URL checkIfCityExistsCall(String city){
+        Uri builtUri = Uri.parse(CURRENT_WEATHER_API).buildUpon()
+                .appendQueryParameter("q",city)
                 .appendQueryParameter("appid",API_KEY)
                 .build();
 
@@ -41,13 +37,51 @@ public class NetworkCalls {
         }
         return url;
     }
-    public static URL buildUrlCurrent(Location location) {
-        String lon = (int) location.getLongitude() + "";
-        String lat = (int) location.getLatitude() + "";
+
+
+    public static URL buildUrlOneCall(Location location,int unitPreference) {
+        String selectedUnit = null;
+        if(unitPreference==0){
+            selectedUnit = "metric";
+        }else if (unitPreference == 1){
+            selectedUnit = "imperial";
+        }
+
+        String lon =  location.getLongitude() + "";
+        String lat =  location.getLatitude() + "";
+
+        Uri builtUri = Uri.parse(ONE_CALL_API).buildUpon()
+                .appendQueryParameter("lat",lat)
+                .appendQueryParameter("lon",lon)
+                .appendQueryParameter("units",selectedUnit)
+                .appendQueryParameter("appid",API_KEY)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildUrlCurrent(Location location,int unitPreference) {
+
+        String selectedUnit = null;
+        if(unitPreference==0){
+            selectedUnit = "metric";
+        }else if (unitPreference == 1){
+            selectedUnit = "imperial";
+        }
+
+        String lon =  location.getLongitude() + "";
+        String lat =  location.getLatitude() + "";
 
         Uri builtUri = Uri.parse(CURRENT_WEATHER_API).buildUpon()
                 .appendQueryParameter("lat",lat)
                 .appendQueryParameter("lon",lon)
+                .appendQueryParameter("units",selectedUnit)
                 .appendQueryParameter("appid",API_KEY)
                 .build();
 
