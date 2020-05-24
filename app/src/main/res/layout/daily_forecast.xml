@@ -36,7 +36,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location"
-        app:srcCompat="@drawable/cloud" />
+        app:srcCompat="@drawable/cloud"
+        android:contentDescription="@string/icon_describing_weather" />
 
 
 
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="26&#xb0;"
+        android:text="@string/default_temperature"
         android:textColor="#F8F8FF"
         android:textSize="100sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,8 +60,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="40dp"
-        android:paddingLeft="5dp"
-        android:text="30%"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/_30"
         android:textColor="#F8F8FF"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/temperature"
@@ -74,7 +76,8 @@
         android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/rain_possibility"
         app:layout_constraintStart_toEndOf="@+id/temperature"
-        app:srcCompat="@drawable/rain_drop" />
+        app:srcCompat="@drawable/rain_drop"
+        android:contentDescription="@string/rain_image" />
 
     <ImageView
         android:id="@+id/wind_speed_image"
@@ -82,16 +85,17 @@
         android:layout_height="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/wind_speed"
         app:layout_constraintStart_toStartOf="@+id/rain_image"
-        app:srcCompat="@drawable/wind_speed" />
+        app:srcCompat="@drawable/wind_speed"
+        android:contentDescription="@string/wind_speed_image" />
 
 
     <TextView
         android:id="@+id/wind_speed"
-        android:layout_width="74dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
-        android:text="6km/h"
+        android:text="@string/default_wind_speed"
         android:textColor="#F8F8FF"
         android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.555"

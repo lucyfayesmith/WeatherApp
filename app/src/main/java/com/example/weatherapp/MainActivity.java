@@ -87,9 +87,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
 
-
         unitPreference =pref.getInt(SELECTED_UNIT,0);
-
 
 
         Log.d(TAG, "onCreate: started.");
@@ -358,6 +356,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        mImageUrls = new ArrayList<>();
+        mDays = new ArrayList<>();
+        mTemperature = new ArrayList<>();
+
         for (int i = 0; i <= 6; i++) {
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
             mDays.add(days[day % 7]);
@@ -369,7 +371,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: init recyclerview.");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
