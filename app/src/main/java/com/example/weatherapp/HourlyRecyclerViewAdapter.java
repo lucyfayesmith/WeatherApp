@@ -9,9 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -24,18 +21,17 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
 
     //vars
     private ArrayList<String> mHours = new ArrayList<>();
-    private ArrayList<String> ImageUrls = new ArrayList<>();
+    private ArrayList<Integer> ImageUrls = new ArrayList<>();
     private ArrayList<String> mTemp = new ArrayList<>();
     private Context Context;
 
-    HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<String> imageUrls, ArrayList<String> temp) {
+    public HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
         mHours = hours;
         ImageUrls = imageUrls;
         mTemp = temp;
         Context = context;
     }
 
-    @NotNull
     @Override
     //inflates each individual layout
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,13 +60,13 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
         return mHours.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView weather;
         TextView hour;
         TextView temp;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             weather = itemView.findViewById(R.id.image);
             hour = itemView.findViewById(R.id.hour);

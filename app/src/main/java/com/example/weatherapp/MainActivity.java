@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,7 +23,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -67,20 +65,20 @@ public class MainActivity extends AppCompatActivity {
     private TextView temperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
-    static Boolean mTwoPane;
+    static boolean mTwoPane;
 
     LocationManager locationManager;
     LinearLayout mainLayout;
 
 
+
     private static final int REQUEST_LOCATION = 1;
-    private static String CURRENT_WEATHER_DATA_JSON;
-    private static String ONECALL_WEATHER_DATA_JSON;
+    public static String CURRENT_WEATHER_DATA_JSON;
+    public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
     private WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
-
     private int newLocationActivityRequestCode = 1;
     private LocationViewModel locationViewModel;
 
@@ -91,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
 
+
         unitPreference =pref.getInt(SELECTED_UNIT,0);
-        SharedPreferences.Editor editor = pref.edit();
 
 
         Log.d(TAG, "onCreate: started.");
@@ -104,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
 
         setUpToolbar();
+
 
 
         if (findViewById(R.id.drawer) != null) {
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     unitPreference = 0;
                 if(item.getTitle().equals("Imperial"))
                     unitPreference = 1;
+                SharedPreferences.Editor editor = pref.edit();
                 editor.putInt(SELECTED_UNIT, unitPreference);
                 editor.apply();
                 makeSearchQuery();
@@ -189,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void createMenu(NavigationView navigationView) {
 
@@ -312,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
-
     }
 
     private Location getLocation() {
@@ -335,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public int getImageFromDrawable(String code) {
+    public static int getImageFromDrawable(String code) {
         switch (code) {
             case "01d":
                 return R.drawable.a01d;
@@ -391,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        String[] days = {"Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
+        String[] days = {"Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"};
         String[] dailyTemp = new String[7];
         String[] dailyIcon = new String[7];
 
@@ -404,10 +402,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        mImageUrls = new ArrayList<>();
-        mDays = new ArrayList<>();
-        mTemperature = new ArrayList<>();
 
         for (int i = 0; i <= 6; i++) {
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
