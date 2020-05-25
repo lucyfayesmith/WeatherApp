@@ -103,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         setUpToolbar();
 
-
-
         if (findViewById(R.id.drawer) != null) {
 //            Phone layout
             mTwoPane = false;
@@ -177,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "launchActivity: activityDetails");
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
+
+
     }
 
     public void onConfigurationChanged(Configuration newConfig) {

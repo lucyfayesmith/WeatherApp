@@ -70,14 +70,14 @@
                     android:textSize="35sp"/>
 
                 <include
-                    android:id="@+id/forecast"
-                    layout="@layout/daily_forecast"
+                    android:id="@+id/extra_weather"
+                    layout="@layout/extra_weather_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="65"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/recyclerView2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="20"
