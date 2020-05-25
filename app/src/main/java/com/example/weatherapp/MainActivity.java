@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_LOCATION = 1;
-    private static String CURRENT_WEATHER_DATA_JSON;
-    private static String ONECALL_WEATHER_DATA_JSON;
+    public static String CURRENT_WEATHER_DATA_JSON;
+    public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
     private WeatherAppRepository repository;
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
         unitPreference =pref.getInt(SELECTED_UNIT,0);
         SharedPreferences.Editor editor = pref.edit();
-
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
@@ -189,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void createMenu(NavigationView navigationView) {
 
@@ -312,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
-
     }
 
     private Location getLocation() {
@@ -335,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public int getImageFromDrawable(String code) {
+    public static int getImageFromDrawable(String code) {
         switch (code) {
             case "01d":
                 return R.drawable.a01d;
@@ -391,7 +388,7 @@ public class MainActivity extends AppCompatActivity {
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        String[] days = {"Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
+        String[] days = {"Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"};
         String[] dailyTemp = new String[7];
         String[] dailyIcon = new String[7];
 
