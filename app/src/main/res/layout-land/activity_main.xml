@@ -6,12 +6,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#485cbd"
+    android:background="@color/colorAccent"
+    android:id="@+id/drawer"
     tools:context=".MainActivity"
     android:screenOrientation="landscape"
     android:configChanges="orientation|screenSize|keyboardHidden">
 
     <LinearLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -30,6 +32,13 @@
             layout="@layout/daily_forecast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

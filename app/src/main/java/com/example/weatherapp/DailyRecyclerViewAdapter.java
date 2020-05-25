@@ -22,9 +22,9 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
     private static final String TAG = "DailyRecyclerViewAdapter";
 
     //vars
-    private ArrayList<Integer> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mDays = new ArrayList<>();
-    private ArrayList<String> mTemperature = new ArrayList<>();
+    private static ArrayList<Integer> mImageUrls = null;
+    private static ArrayList<String> mDays = null;
+    private static ArrayList<String> mTemperature = null;
     private Context mContext;
 
     public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<Integer> imageUrls, ArrayList<String> temp) {

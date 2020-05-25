@@ -73,8 +73,8 @@ public class WeatherAppRepository {
         JSONObject obj = new JSONObject(jsonString);
         JSONObject wind = obj.getJSONObject("wind");
 
-        Double speed = wind.getDouble("speed");
-        return (speed +"km/h");
+        double speed = Math.round(wind.getDouble("speed")*10) / 10.00;
+        return (speed +" km/h");
     }
 
     String getHumidity(String jsonString) throws  JSONException{
@@ -96,7 +96,7 @@ public class WeatherAppRepository {
     }
 
     String[] getDailyTemperatures(String jsonString) throws  JSONException{
-        String dailyTemp[]= new String[7];
+        String[] dailyTemp = new String[7];
         JSONObject tempJSON = new JSONObject(jsonString);
 
         JSONArray daily = tempJSON.getJSONArray("daily");
@@ -106,7 +106,6 @@ public class WeatherAppRepository {
             JSONObject tempThisDay = thisDay.getJSONObject("temp");
             Double tempDouble= tempThisDay.getDouble("day");
             int tempInt = (int) Math.round(tempDouble);
-            tempInt-=273;
             dailyTemp[i]=(tempInt + "\u00B0");
         }
 
