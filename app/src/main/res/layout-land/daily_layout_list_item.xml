@@ -11,14 +11,12 @@
     <androidx.cardview.widget.CardView
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_alignParentBottom="true"
-        app:cardElevation="1dp"
-        app:cardMaxElevation="2dp">
+        android:layout_alignParentBottom="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent">
+            android:background="#2e3ca2">
 
             <TextView
                 android:id="@+id/day"

@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,13 +28,15 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
     private ArrayList<String> mTemp = new ArrayList<>();
     private Context Context;
 
-    public HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
+
+    HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<String> imageUrls, ArrayList<String> temp) {
         mHours = hours;
         ImageUrls = imageUrls;
         mTemp = temp;
         Context = context;
     }
 
+    @NotNull
     @Override
     //inflates each individual layout
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,13 +65,13 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
         return mHours.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView weather;
         TextView hour;
         TextView temp;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             weather = itemView.findViewById(R.id.image);
             hour = itemView.findViewById(R.id.hour);

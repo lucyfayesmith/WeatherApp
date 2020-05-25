@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
+
     private int newLocationActivityRequestCode = 1;
     private LocationViewModel locationViewModel;
 
@@ -87,9 +88,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
 
-
         unitPreference =pref.getInt(SELECTED_UNIT,0);
-
+        SharedPreferences.Editor editor = pref.edit();
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
                     unitPreference = 0;
                 if(item.getTitle().equals("Imperial"))
                     unitPreference = 1;
-                SharedPreferences.Editor editor = pref.edit();
                 editor.putInt(SELECTED_UNIT, unitPreference);
                 editor.apply();
                 makeSearchQuery();
@@ -211,14 +210,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
+
+        drawerLayout = findViewById(R.id.drawer);
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
+
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
     }
 
     @Override
@@ -354,6 +358,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        mImageUrls = new ArrayList<>();
+        mDays = new ArrayList<>();
+        mTemperature = new ArrayList<>();
 
         for (int i = 0; i <= 6; i++) {
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
