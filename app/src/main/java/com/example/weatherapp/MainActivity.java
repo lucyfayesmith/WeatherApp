@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +24,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView temperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
+    static Boolean mTwoPane;
 
     LocationManager locationManager;
     LinearLayout mainLayout;
@@ -100,9 +103,19 @@ public class MainActivity extends AppCompatActivity {
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
 
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        setUpToolbar();
 
-        setupToolbar();
+
+        if (findViewById(R.id.drawer) != null) {
+//            Phone layout
+            mTwoPane = false;
+
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            setUpNavDrawer();
+
+        }
+
+        NavigationView navigationView = findViewById(R.id.navigation_view);
         createMenu(navigationView);
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -123,7 +136,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 makeSearchQueryMenu(item.getTitle().toString());
             }
-            drawerLayout.closeDrawer(GravityCompat.START);
+            if (mTwoPane = false) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
             return true;
         });
 
@@ -211,21 +226,49 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupToolbar() {
-
-        drawerLayout = findViewById(R.id.drawer);
-
+    private void setUpNavDrawer() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (myToolbar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
-
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
+            drawerLayout.addDrawerListener(drawerToggle);
+            drawerToggle.syncState();
+        }
     }
+
+    private void setUpToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (myToolbar != null) {
+            setSupportActionBar(myToolbar);
+            setSupportActionBar(myToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+
+//    private void setupToolbar() {
+//
+//        drawerLayout = findViewById(R.id.drawer);
+//
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
+//
+//        drawerLayout.addDrawerListener(drawerToggle);
+//        drawerToggle.syncState();
+
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

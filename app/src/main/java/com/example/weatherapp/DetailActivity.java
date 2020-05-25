@@ -46,7 +46,6 @@ public class DetailActivity extends AppCompatActivity {
         textView4.setTextSize(30);
         textView4.setText("10C");
 
-
     }
 
     private void launch_Activity(){

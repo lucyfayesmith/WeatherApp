@@ -3,13 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#485cbd"
     tools:context=".MainActivity"
-    android:screenOrientation="landscape"
-    android:orientation="vertical">
+    android:screenOrientation="landscape">
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -20,74 +18,78 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
+            android:layout_height="0dp"
             app:title=""
             app:titleTextColor="@android:color/white"/>
+
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginTop="?attr/actionBarSize">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/layout"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <include
-                android:id="@+id/forecast"
-                layout="@layout/daily_forecast"
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigation_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:clipToPadding="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:menu="@menu/main_menu" />
 
-            <include
-                layout="@layout/activity_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="40dp"
-                android:layout_toEndOf="@id/forecast"
-                android:layout_alignBottom="@id/forecast"
-                android:layout_alignTop="@id/forecast"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/navigation_view"
+                android:weightSum="100">
 
-            <ProgressBar
-                android:id="@+id/loading_indicator"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"
-                android:layout_alignBottom="@id/forecast"
-                android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="15"
+                    android:gravity="center"
+                    android:text="@string/current_location_here"
+                    android:textColor="#F8F8FF"
+                    android:textSize="35sp"/>
+
+                <include
+                    android:id="@+id/forecast"
+                    layout="@layout/daily_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="65"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="20"
+                    android:background="#2e3ca2"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#2e3ca2"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:clipToPadding="false"
-        app:menu="@menu/main_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>
-
