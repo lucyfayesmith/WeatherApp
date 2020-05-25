@@ -1,5 +1,6 @@
 package com.example.weatherapp;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
@@ -18,9 +21,10 @@ public class DetailActivity extends AppCompatActivity {
 
     //vars
     private ArrayList<String> mHours = new ArrayList<>();
-    private ArrayList<String> ImageUrls = new ArrayList<>();
+    private ArrayList<Integer> ImageUrls = new ArrayList<>();
     private ArrayList<String> mTemp = new ArrayList<>();
-
+    TextView mSunriseTime, mSunsetTime, mMaxTemp, mMinTemp;
+    private WeatherAppRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +32,25 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         Log.d(TAG, "onCreate: started.");
 
-        getImages(); //collecting hourly weather data with relevant images
+        mSunriseTime = findViewById(R.id.sunrise_time);
+        mSunsetTime= findViewById(R.id.sunset_time);
+        mMaxTemp = findViewById(R.id.max_temp);
+        mMinTemp =  findViewById(R.id.min_temp);
+        repository = new WeatherAppRepository(getApplication());
 
-        TextView textView1 = (TextView) findViewById(R.id.sunrise_time);
-        textView1.setTextSize(30);
-        textView1.setText("6:30am");
+        try {
+            updateMainScreen();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
-        TextView textView2 = (TextView) findViewById(R.id.sunset_time);
-        textView2.setTextSize(30);
-        textView2.setText("7:00pm");
-
-        TextView textView3 = (TextView) findViewById(R.id.max_temp);
-        textView3.setTextSize(30);
-        textView3.setText("25C");
-
-        TextView textView4 = (TextView) findViewById(R.id.min_temp);
-        textView4.setTextSize(30);
-        textView4.setText("10C");
-
-
+    private void updateMainScreen() throws JSONException {
+        mSunriseTime.setText(repository.getSunrise(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mSunsetTime.setText(repository.getSunset(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mMaxTemp.setText(repository.getMaxTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        mMinTemp.setText(repository.getMinTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));
+        getImages();
     }
 
     private void launch_Activity(){
@@ -70,22 +74,23 @@ public class DetailActivity extends AppCompatActivity {
     private void getImages(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        ImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_1-512.png");
-        mHours.add("8:00");
-        mTemp.add("25C");
+        String[] hours = new String[25];
+        String[] hourlyTemp = new String[25];
+        String[] hourlyIcon = new String[25];
 
-        ImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_30-512.png");
-        mHours.add("9:00");
-        mTemp.add("22C");
+        try {
+             hours = repository.getHourlyTime(MainActivity.ONECALL_WEATHER_DATA_JSON);
+             hourlyTemp = repository.getHourlyTemperatures(MainActivity.ONECALL_WEATHER_DATA_JSON);
+             hourlyIcon  = repository.getHourlyIcons(MainActivity.ONECALL_WEATHER_DATA_JSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        ImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_2-512.png");
-        mHours.add("10:00");
-        mTemp.add("23C");
-
-        ImageUrls.add("https://cdn4.iconfinder.com/data/icons/the-weather-is-nice-today/64/weather_35-512.png");
-        mHours.add("11:00");
-        mTemp.add("24C");
-
+        for(int i = 0; i<=24; i++){
+            mHours.add(hours[i]);
+            ImageUrls.add(MainActivity.getImageFromDrawable(hourlyIcon[i]));
+            mTemp.add(hourlyTemp[i]);
+        }
 
         initRecyclerView();
     }
