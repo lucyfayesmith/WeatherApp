@@ -6,25 +6,33 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="#485cbd"
     android:id="@+id/drawer"
     tools:context=".MainActivity"
     android:screenOrientation="landscape"
     android:configChanges="orientation|screenSize|keyboardHidden">
 
     <LinearLayout
-        android:id="@+id/mainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#485cbd">
 
-        <androidx.appcompat.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title=""
             app:titleTextColor="@android:color/white">
+
+            <ProgressBar
+                android:id="@+id/loading_indicator"
+                android:layout_height="30dp"
+                android:layout_width="30dp"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
         </androidx.appcompat.widget.Toolbar>
 
         <include
@@ -33,33 +41,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ProgressBar
-            android:id="@+id/loading_indicator"
-            android:layout_height="50dp"
-            android:layout_width="50dp"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:background="#2e3ca2">
         </androidx.recyclerview.widget.RecyclerView>
+
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:clipToPadding="false"
-        app:menu="@menu/main_menu"
-        />
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            android:clipToPadding="false"
+            app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
-
-
 

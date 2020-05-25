@@ -5,110 +5,169 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/extra_weather"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:background="#485cbd"
     android:orientation="vertical"
-    android:layout_marginLeft="100dp">
+    android:layout_gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@id/title"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/todays_weather"
+            android:textSize="30sp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:gravity="center"
+            android:textColor="@android:color/primary_text_dark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </LinearLayout>
 
 
     <ImageView
         android:id="@+id/sunrise_image"
         android:layout_width="60dp"
-        android:layout_height="100dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/sunrise_time"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toRightOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
         app:srcCompat="@drawable/sunrise" />
 
     <TextView
         android:id="@+id/sunrise_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingLeft="40dp"
+        android:padding = "20dp"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/sunrise_image"
-        app:layout_constraintLeft_toRightOf="@id/sunrise_image"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/title"
         tools:text="6:30am"
         android:textColor="#FFFFFF"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/sunrise_time"/>
 
     <ImageView
         android:id="@+id/sunset_image"
         android:layout_width="60dp"
-        android:layout_height="100dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toStartOf="@+id/sunset_time"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sunrise_image"
+        app:layout_constraintRight_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/view1"
         app:srcCompat="@drawable/sunset" />
 
     <TextView
         android:id="@+id/sunset_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingLeft="40dp"
+        android:padding = "20dp"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/max_temp"
         app:layout_constraintBottom_toBottomOf="@+id/sunset_image"
-        app:layout_constraintLeft_toRightOf="@id/sunset_image"
-        app:layout_constraintTop_toBottomOf="@id/sunrise_time"
-        tools:text="7:40pm"
-        android:textColor="#FFFFFF"/>
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/view1"
+        tools:text="7:40pm" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/sunset_image"/>
 
     <ImageView
         android:id="@+id/max_temp_image"
         android:layout_width="60dp"
-        android:layout_height="100dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sunset_image"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/max_temp"
+        app:layout_constraintRight_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/max_temp"
         app:srcCompat="@drawable/max_temperature" />
 
     <TextView
         android:id="@+id/max_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="35dp"
-        android:paddingLeft="40dp"
+        android:padding="20dp"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:layout_constraintLeft_toRightOf="@id/max_temp_image"
-        app:layout_constraintTop_toBottomOf="@id/sunset_time"
         app:layout_constraintBottom_toBottomOf="@+id/max_temp_image"
-        tools:layout_editor_absoluteX="220dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/sunset_time"
         tools:text="25&#xb0;" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/max_temp_image"/>
 
     <ImageView
         android:id="@+id/min_temp_image"
         android:layout_width="60dp"
-        android:layout_height="100dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        app:srcCompat="@drawable/min_temp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/max_temp_image" />
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/min_temp"
+        app:layout_constraintRight_toRightOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="@id/min_temp"
+        app:srcCompat="@drawable/min_temp" />
 
     <TextView
         android:id="@+id/min_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="35dp"
-        android:paddingLeft="40dp"
+        android:padding = "20dp"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:layout_constraintLeft_toRightOf="@id/min_temp_image"
+        app:layout_constraintLeft_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/max_temp"
-        app:layout_constraintBottom_toBottomOf="@+id/min_temp_image"
         tools:text="25&#xb0;" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

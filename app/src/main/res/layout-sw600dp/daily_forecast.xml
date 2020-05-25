@@ -5,8 +5,7 @@
     android:id="@+id/weather_description"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#002E3BA1"
-    android:orientation="horizontal">
+    android:background="#002E3BA1">
 
     <LinearLayout
         android:id="@+id/title"
@@ -34,14 +33,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/weather_icon_layout"
-        android:paddingTop="30dp">
+        android:paddingTop="50dp">
 
         <ImageView
             android:id="@+id/weather_icon"
-            android:layout_width="200dp"
-            android:layout_height="180dp"
+            android:layout_width="330dp"
+            android:layout_height="300dp"
             android:layout_gravity="center"
-            android:layout_marginStart="140dp"
+            android:layout_marginStart="100dp"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
@@ -58,8 +57,8 @@
 
         <ImageView
             android:id="@+id/temperature_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="60dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
@@ -68,9 +67,9 @@
 
         <ImageView
             android:id="@+id/wind_speed_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
             android:layout_below="@id/temperature_image"
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/wind_speed" />
@@ -78,9 +77,10 @@
 
         <ImageView
             android:id="@+id/rain_image"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
             android:layout_below="@id/wind_speed_image"
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/rain_drop" />
@@ -88,7 +88,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/extra_text_views"
+        android:id="@+id/extra_text_veiws"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toRightOf="@id/extra_icons"
@@ -99,12 +99,12 @@
             android:id="@+id/temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="60dp"
             android:layout_marginTop="60dp"
             android:paddingLeft="20dp"
             android:text="30C"
             android:textColor="#F8F8FF"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"/>
 
@@ -112,10 +112,11 @@
             android:id="@+id/wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:paddingLeft="5dp"
             android:text="6km/h"
             android:textColor="#F8F8FF"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:layout_below="@id/temperature"
             android:layout_centerHorizontal="true"/>
 
@@ -124,10 +125,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="80dp"
             android:text="30%"
             android:textColor="#F8F8FF"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:layout_below="@id/wind_speed"
             android:layout_centerHorizontal="true"/>
 

@@ -7,7 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#485cbd"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:screenOrientation="landscape"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -23,11 +25,6 @@
             app:title=""
             app:titleTextColor="@android:color/white"/>
 
-        <include
-            layout="@layout/daily_forecast"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,16 +33,41 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <ProgressBar
-            android:id="@+id/loading_indicator"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weather_icon" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recyclerView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <include
+                android:id="@+id/forecast"
+                layout="@layout/daily_forecast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <include
+                layout="@layout/activity_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="40dp"
+                android:layout_toEndOf="@id/forecast"
+                android:layout_alignBottom="@id/forecast"
+                android:layout_alignTop="@id/forecast"/>
+
+            <ProgressBar
+                android:id="@+id/loading_indicator"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:layout_alignBottom="@id/forecast"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -55,8 +77,7 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,3 +90,4 @@
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
