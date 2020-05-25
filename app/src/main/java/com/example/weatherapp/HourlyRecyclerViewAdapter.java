@@ -21,11 +21,11 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
 
     //vars
     private ArrayList<String> mHours = new ArrayList<>();
-    private ArrayList<String> ImageUrls = new ArrayList<>();
+    private ArrayList<Integer> ImageUrls = new ArrayList<>();
     private ArrayList<String> mTemp = new ArrayList<>();
     private Context Context;
 
-    public HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<String> imageUrls, ArrayList<String> temp) {
+    public HourlyRecyclerViewAdapter(Context context, ArrayList<String> hours, ArrayList<Integer> imageUrls, ArrayList<String> temp) {
         mHours = hours;
         ImageUrls = imageUrls;
         mTemp = temp;

@@ -22,7 +22,6 @@ public class NetworkCalls {
 
     final static String SECOND_API_KEY = "bbacb51aa2d6511cd7eab0abdfec1048";
 
-
     public static URL checkIfCityExistsCall(String city){
         Uri builtUri = Uri.parse(CURRENT_WEATHER_API).buildUpon()
                 .appendQueryParameter("q",city)
@@ -37,7 +36,6 @@ public class NetworkCalls {
         }
         return url;
     }
-
 
     public static URL buildUrlOneCall(Location location,int unitPreference) {
         String selectedUnit = null;

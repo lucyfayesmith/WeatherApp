@@ -4,6 +4,7 @@ Either chooses to retrieve data from the database or network (Weather API).
  */
 package com.example.weatherapp;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -104,7 +105,7 @@ public class WeatherAppRepository {
         JSONArray daily = tempJSON.getJSONArray("daily");
 
         for (int i=0; i<7; i++){
-            JSONObject thisDay = daily.getJSONObject(i);
+            JSONObject thisDay = daily.getJSONObject(i+1);
             JSONObject tempThisDay = thisDay.getJSONObject("temp");
             Double tempDouble= tempThisDay.getDouble("day");
             int tempInt = (int) Math.round(tempDouble);
@@ -114,6 +115,42 @@ public class WeatherAppRepository {
         return dailyTemp;
     }
 
+    String[] getHourlyTemperatures(String jsonString) throws  JSONException{
+        String hourlyTemp[]= new String[25];
+        JSONObject tempJSON = new JSONObject(jsonString);
+
+        JSONArray hourly = tempJSON.getJSONArray("hourly");
+
+        for (int i=0; i<=24; i++){
+            JSONObject thisHour = hourly.getJSONObject(i);
+            Double tempDouble= thisHour.getDouble("temp");
+            int tempInt = (int) Math.round(tempDouble);
+            hourlyTemp[i]=(tempInt + "\u00B0");
+        }
+
+        return hourlyTemp;
+    }
+
+    String[] getHourlyTime(String jsonString) throws  JSONException{
+        String hourlyTemp[]= new String[25];
+        JSONObject tempJSON = new JSONObject(jsonString);
+
+        JSONArray hourly = tempJSON.getJSONArray("hourly");
+
+        for (int i=0; i<=24; i++){
+            JSONObject thisHour = hourly.getJSONObject(i);
+            long hour = thisHour.getLong("dt");
+
+            Date date = new java.util.Date(hour*1000L);
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String formattedDate = sdf.format(date);
+            hourlyTemp[i]=formattedDate;
+        }
+
+        return hourlyTemp;
+    }
+
     String[] getDailyIcons(String jsonString) throws  JSONException{
         String dailyIcon[]= new String[7];
         JSONObject tempJSON = new JSONObject(jsonString);
@@ -121,12 +158,27 @@ public class WeatherAppRepository {
         JSONArray daily = tempJSON.getJSONArray("daily");
 
         for (int i=0; i<7; i++){
-            JSONObject thisDay = daily.getJSONObject(i);
+            JSONObject thisDay = daily.getJSONObject(i+1);
             JSONArray weather = thisDay.getJSONArray("weather");
             dailyIcon[i]=weather.getJSONObject(0).getString("icon");
         }
 
         return dailyIcon;
+    }
+
+    String[] getHourlyIcons(String jsonString) throws  JSONException{
+        String hourlyIcon[]= new String[25];
+        JSONObject tempJSON = new JSONObject(jsonString);
+
+        JSONArray hourly = tempJSON.getJSONArray("hourly");
+
+        for (int i=0; i<25; i++){
+            JSONObject thisHour = hourly.getJSONObject(i);
+            JSONArray weather = thisHour.getJSONArray("weather");
+            hourlyIcon[i]=weather.getJSONObject(0).getString("icon");
+        }
+
+        return hourlyIcon;
     }
 
     String getMaxTemperature(String jsonString) throws  JSONException{
@@ -157,10 +209,11 @@ public class WeatherAppRepository {
         long sunrise = sys.getLong("sunrise");
 
         Date date = new java.util.Date(sunrise*1000L);
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         //sdf.setTimeZone(timezone);
         String formattedDate = sdf.format(date);
-        return (formattedDate );
+        return (formattedDate);
 
     }
 

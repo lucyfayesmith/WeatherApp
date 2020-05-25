@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public int getImageFromDrawable(String code) {
+    public static int getImageFromDrawable(String code) {
         switch (code) {
             case "01d":
                 return R.drawable.a01d;
@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        String[] days = {"Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
+        String[] days = {"Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"};
         String[] dailyTemp = new String[7];
         String[] dailyIcon = new String[7];
 
