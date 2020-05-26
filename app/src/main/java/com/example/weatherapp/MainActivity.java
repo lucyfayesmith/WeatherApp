@@ -45,6 +45,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
-    private static final String SELECTED_UNIT = "SelectedUnit";
+    private static final String SELECTED_UNIT = "metric";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -403,6 +404,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        mImageUrls.clear();
+        mDays.clear();
+        mTemperature.clear();
+
         for (int i = 0; i <= 6; i++) {
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
             mDays.add(days[day % 7]);
@@ -509,7 +514,6 @@ public class MainActivity extends AppCompatActivity {
             LoadingIndicator.setVisibility(View.INVISIBLE);
 
             if (s != null && !s.equals("")) {
-                Log.d("JsonData", s[1]);
                 ONECALL_WEATHER_DATA_JSON = s[0];
                 CURRENT_WEATHER_DATA_JSON = s[1];
                 try {
