@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView wind_speed;
     private TextView humidity;
     private TextView temperature;
+    private TextView widgetTemperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
-    private WeatherAppRepository repository;
+    public WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
     private int newLocationActivityRequestCode = 1;
     private LocationViewModel locationViewModel;
@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         wind_speed = (TextView) findViewById(R.id.wind_speed);
         humidity = (TextView) findViewById(R.id.rain_possibility);
         temperature = (TextView) findViewById(R.id.temperature);
+        widgetTemperature = (TextView) findViewById(R.id.AppWidgetTemper);
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
         //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         currentLocationData();
+
     }
 
     private void currentLocationData() {
@@ -264,7 +266,15 @@ public class MainActivity extends AppCompatActivity {
         wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
+
+        //        set data on widget
+        weatherAppWidgetPhone.widgetTemper = repository.getTemperature(CURRENT_WEATHER_DATA_JSON);
+        weatherAppWidgetPhone.widgetCity = repository.getLocationName(CURRENT_WEATHER_DATA_JSON);
+        weatherAppWidgetPhone.widgetIcon = repository.getIcon(CURRENT_WEATHER_DATA_JSON);
+
+
         getImages();
+
 
     }
 

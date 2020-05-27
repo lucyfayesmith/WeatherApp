@@ -6,7 +6,12 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
+
+import androidx.core.content.ContextCompat;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -15,6 +20,11 @@ import java.util.Date;
  * Implementation of App Widget functionality.
  */
 public class weatherAppWidgetPhone extends AppWidgetProvider {
+    public static String widgetTemper;
+    public static String widgetIcon;
+    public static String widgetCity;
+
+    private ImageView weather_icon;
 
     private static final String mSharedPrefFile =
             "com.example.android.appwidgetsample";
@@ -44,6 +54,20 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
         views.setTextViewText(R.id.appwidget_update,
                 context.getResources().getString(
                         R.string.date_count_format, count, dateString));
+
+//        set data to layout from json which is called in MainActivity
+        views.setTextViewText(R.id.AppWidgetTemper,
+                String.valueOf(widgetTemper));
+        views.setTextViewText(R.id.AppWidgetCity,
+                String.valueOf(widgetCity));
+//        set data to layout from json which is called in MainActivity (drawable)
+        Resources resources = context.getResources();
+        final int resourceId = resources.getIdentifier("a"+"02d", "drawable",
+                context.getPackageName());
+        Drawable omg = resources.getDrawable(resourceId);
+        views.setImageViewResource(R.id.weather_icon, resourceId);
+//        //set data
+
 
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.putInt(COUNT_KEY + appWidgetId, count);
@@ -80,6 +104,10 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    public static Drawable GetImage(Context c, String ImageName) {
+        return c.getResources().getDrawable(c.getResources().getIdentifier(ImageName, "drawable", c.getPackageName()));
     }
 }
 
