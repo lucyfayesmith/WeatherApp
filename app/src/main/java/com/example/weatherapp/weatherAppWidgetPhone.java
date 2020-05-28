@@ -1,5 +1,7 @@
 package com.example.weatherapp;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
@@ -32,7 +35,7 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
+//<code for debuging (last update and widget ID) (a few of this code will be commented at the end)
 //        shared instance
         SharedPreferences prefs = context.getSharedPreferences(
                 mSharedPrefFile, 0);
@@ -55,20 +58,6 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
                 context.getResources().getString(
                         R.string.date_count_format, count, dateString));
 
-//        set data to layout from json which is called in MainActivity
-        views.setTextViewText(R.id.AppWidgetTemper,
-                String.valueOf(widgetTemper));
-        views.setTextViewText(R.id.AppWidgetCity,
-                String.valueOf(widgetCity));
-//        set data to layout from json which is called in MainActivity (drawable)
-        Resources resources = context.getResources();
-        final int resourceId = resources.getIdentifier("a"+"02d", "drawable",
-                context.getPackageName());
-        Drawable omg = resources.getDrawable(resourceId);
-        views.setImageViewResource(R.id.weather_icon, resourceId);
-//        //set data
-
-
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.putInt(COUNT_KEY + appWidgetId, count);
         prefEditor.apply();
@@ -86,6 +75,32 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+//</ code for debuging
+
+        //        set data to layout from json which is called in MainActivity
+        views.setTextViewText(R.id.AppWidgetTemper,
+                String.valueOf(widgetTemper));
+        views.setTextViewText(R.id.AppWidgetCity,
+                String.valueOf(widgetCity));
+//        set data to layout from json which is called in MainActivity (drawable)
+        Resources resources = context.getResources();
+        final int resourceId = resources.getIdentifier("a"+"02d", "drawable",
+                context.getPackageName());
+        Drawable omg = resources.getDrawable(resourceId);
+        views.setImageViewResource(R.id.weather_icon, resourceId);
+//        //set data
+
+
+
+
+
+ //        Application app = (Application) context.getApplicationContext();
+
+//        Application application = MainActivity.getApplicationFromMainActivity();
+//        int ahoj;
+//        ((Activity) mContext).getApplication
+//        LocationManager locationManager = (LocationManager) Context.getSystemService(Context.LOCATION_SERVICE);
+//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
     }
 
     @Override

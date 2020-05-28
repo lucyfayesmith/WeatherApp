@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,6 +49,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+//    Application application = getApplication();
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
