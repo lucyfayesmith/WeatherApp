@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout mainLayout;
 
 
-
     private static final int REQUEST_LOCATION = 1;
     public static String CURRENT_WEATHER_DATA_JSON;
     public static String ONECALL_WEATHER_DATA_JSON;
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
 
 
-        unitPreference =pref.getInt(SELECTED_UNIT,0);
+        unitPreference = pref.getInt(SELECTED_UNIT, 0);
 
 
         Log.d(TAG, "onCreate: started.");
@@ -110,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             setUpNavDrawer();
-
+        } else {
+            mTwoPane = true;
         }
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getTitle().equals("Current Location")) {
                 currentLocationData();
             } else if (item.getGroupId() == R.id.unit) {
-                if(item.getTitle().equals("Metric"))
+                if (item.getTitle().equals("Metric"))
                     unitPreference = 0;
-                if(item.getTitle().equals("Imperial"))
+                if (item.getTitle().equals("Imperial"))
                     unitPreference = 1;
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt(SELECTED_UNIT, unitPreference);
@@ -135,11 +135,12 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 makeSearchQueryMenu(item.getTitle().toString());
             }
-            if (mTwoPane = false) {
+            if (!mTwoPane) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
             return true;
         });
+
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             item.setIcon(R.mipmap.ic_launcher);
             item.setCheckable(true);
 
-            for (int i = 1; i < locations.size(); i++) {
+            for (int i = 0; i < locations.size(); i++) {
                 item = menu.add(R.id.locations, i, 0, locations.get(i).getLocation());
                 item.setIcon(R.mipmap.ic_launcher);
                 item.setCheckable(true);
@@ -221,8 +222,6 @@ public class MainActivity extends AppCompatActivity {
             item = menu.add(R.id.unit, 0, 2, "Imperial");
             item.setIcon(R.mipmap.ic_launcher);
             item.setCheckable(true);
-
-
         });
     }
 
