@@ -51,6 +51,7 @@ public class DetailActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void updateMainScreen() throws JSONException {
+        if (MainActivity.CURRENT_WEATHER_DATA_JSON== null || MainActivity.ONECALL_WEATHER_DATA_JSON==null) return;
         mSunriseTime.setText(repository.getSunrise(MainActivity.CURRENT_WEATHER_DATA_JSON));
         mSunsetTime.setText(repository.getSunset(MainActivity.CURRENT_WEATHER_DATA_JSON));
         mMaxTemp.setText(repository.getMaxTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));

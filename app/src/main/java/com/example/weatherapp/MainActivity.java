@@ -164,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
         currentLocationData();
     }
 
+    /**
+     * gets the location and then invokes the main method that builds the URLs, calls the API for
+     * response, gets the reponse, parses the information and then updates the screen.
+     */
     private void currentLocationData() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -303,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
      * uses these 2 URLs to get the answers from the API in JSON format.
      */
     private void makeSearchQuery() {
+        if (getLocation()==null) return;
         URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation(), unitPreference);
         URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(getLocation(), unitPreference);
         new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
@@ -328,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
      * If it's unable to get the location we notify the user with a toast.
      * @return the location of the device
      */
-    private Location getLocation() {
+    Location getLocation() {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
                 (MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
