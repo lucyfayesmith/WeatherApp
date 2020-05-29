@@ -7,7 +7,7 @@
     android:checkableBehavior="single" />
 
 
-<group android:id="@+id/add_location"/>
+<group android:id="@+id/location_functions"/>
 
 
 <group
