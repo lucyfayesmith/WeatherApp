@@ -252,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
 //    private void setupToolbar() {
 //
 //        drawerLayout = findViewById(R.id.drawer);
@@ -298,12 +297,22 @@ public class MainActivity extends AppCompatActivity {
         new GeocodingTask(this).execute(location);
     }
 
+    /**
+     * Builds the URLs for the 2 different API's we need to get the data from. And then calls the
+     * currentWeatherQueryTask method with the 2 URLs as parameters. currentWeatherQueryTask then
+     * uses these 2 URLs to get the answers from the API in JSON format.
+     */
     private void makeSearchQuery() {
         URL oneCallUrl = NetworkCalls.buildUrlOneCall(getLocation(), unitPreference);
         URL CurrentWeatherUrl = NetworkCalls.buildUrlCurrent(getLocation(), unitPreference);
         new currentWeatherQueryTask().execute(oneCallUrl, CurrentWeatherUrl);
     }
 
+    /**
+     * Used from the on create method and its the main method that updates all the information
+     * of the Main Activity Views.
+     * @throws JSONException
+     */
     public void updateMainScreen() throws JSONException {
         location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
         temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
@@ -313,6 +322,12 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
+    /**
+     * Method to get location (either from GPS or NETWORK) of the user-android device.
+     * If we have the permission we go ahead and get the location or else the method asks for it.
+     * If it's unable to get the location we notify the user with a toast.
+     * @return the location of the device
+     */
     private Location getLocation() {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
@@ -333,6 +348,11 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Method to get the corresponding image from drawable according to API response
+     * @param code the code we get from the API call
+     * @return the code for the image in our drawable directory
+     */
     public static int getImageFromDrawable(String code) {
         switch (code) {
             case "01d":
@@ -368,33 +388,34 @@ public class MainActivity extends AppCompatActivity {
         return R.drawable.a01d;
     }
 
+    /**
+     * method to warn the user that his Location is turned off and asks to enable it
+      */
     protected void warnNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Please Turn ON your GPS Connection")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
+                .setPositiveButton("Yes", (dialog, id) -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                .setNegativeButton("No", (dialog, id) -> dialog.cancel());
         final AlertDialog alert = builder.create();
         alert.show();
     }
 
+    /**
+     * Method with 3 parallel arrays for the recycler view on the bottom of the screen.
+     * days[0] has the name of the next day, days[1] the next next day etc. The other 2 parallel
+     * tables store the temperature of the day and the icon description that we use to get the
+     * corresponding weather icon (sun,clouds,rain etc)
+     */
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        String[] days = {"Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"};
+        String[] days = {"Sun","Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
         String[] dailyTemp = new String[7];
         String[] dailyIcon = new String[7];
 
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        int day = calendar.get(Calendar.DAY_OF_WEEK); //gets the day of the week.
 
         try {
             dailyTemp = this.repository.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
@@ -407,14 +428,14 @@ public class MainActivity extends AppCompatActivity {
         mDays.clear();
         mTemperature.clear();
 
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 6; i++) { // for the next 7 days
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
-            mDays.add(days[day % 7]);
+            mDays.add(days[day % 7]); // I used mod 7 so we dont go out of bounds and start over.
             mTemperature.add(dailyTemp[i]);
             day++;
         }
 
-        initRecyclerView();
+        initRecyclerView(); //once we have all the data in the 3 tables we initialize the recycler
     }
 
     private void initRecyclerView() {
@@ -484,6 +505,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Performs the network calls in a different thread to get the results from the API.
+     * Do in background gets as parameters the URL's for the oneCall and the current weather API's
+     * calculated for the specific location of the user and then uses them to get the JSON reponse
+     * with all the provided information we need and then it stores the responses to global
+     * variables ONECALL_WEATHER_DATA_JSON and CURRENT_WEATHER_DATA_JSON respectively.
+     */
     public class currentWeatherQueryTask extends AsyncTask<URL, Void, String[]> {
 
         @Override

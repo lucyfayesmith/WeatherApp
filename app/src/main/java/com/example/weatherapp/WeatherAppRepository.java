@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class WeatherAppRepository {
 
@@ -51,6 +52,8 @@ public class WeatherAppRepository {
         });
     }
 
+    //All the methods below parse the data from the API response and get what their name indicates
+    // for example the location Name/Temperature/Humidity etc.
     String getLocationName(String jsonString) throws JSONException {
         JSONObject obj = new JSONObject(jsonString);
         JSONObject sys = obj.getJSONObject("sys");
@@ -205,13 +208,14 @@ public class WeatherAppRepository {
         JSONObject obj = new JSONObject(jsonString);
         JSONObject sys = obj.getJSONObject("sys");
 
-        int timezone = obj.getInt("timezone");
+        long timezone = obj.getInt("timezone");
         long sunrise = sys.getLong("sunrise");
+        sunrise +=timezone;
 
         Date date = new java.util.Date(sunrise*1000L);
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        //sdf.setTimeZone(timezone);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String formattedDate = sdf.format(date);
         return (formattedDate);
 
@@ -223,10 +227,11 @@ public class WeatherAppRepository {
 
         int timezone = obj.getInt("timezone");
         long sunset = sys.getLong("sunset");
+        sunset +=timezone;
 
         Date date = new java.util.Date(sunset*1000L);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        //sdf.setTimeZone(timezone.getRawOffset());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         String formattedDate = sdf.format(date);
         return (formattedDate );
     }
