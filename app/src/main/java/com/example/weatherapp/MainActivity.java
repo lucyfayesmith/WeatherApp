@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
-//    private DrawerLayout drawerLand;
+    private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
     private LocationViewModel locationViewModel;
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
         drawerLayout = findViewById(R.id.drawer);
-//        drawerLand = findViewById(R.id.drawer_land);
+        drawerLand = findViewById(R.id.drawer_land);
 
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
