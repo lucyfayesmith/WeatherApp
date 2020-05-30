@@ -9,21 +9,34 @@
     android:paddingTop="50dp"
     android:paddingLeft="50dp">
 
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:gravity="center"
+        android:text="@string/current_location_here"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#F8F8FF"
+        android:textSize="35sp" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+    
 
     <ImageView
         android:id="@+id/weather_icon"
-        android:layout_width="380dp"
-        android:layout_height="350dp"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         app:layout_constraintRight_toLeftOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/location"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/cloud" />
@@ -33,9 +46,8 @@
         android:id="@+id/temperature_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
         app:layout_constraintLeft_toRightOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/location"
         app:srcCompat="@drawable/max_temperature" />
 
 
@@ -71,14 +83,14 @@
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:paddingLeft="20dp"
         android:text="30C"
         android:textColor="#F8F8FF"
         android:textSize="30sp"
         app:layout_constraintLeft_toRightOf="@id/guideline3"
-        app:layout_constraintBottom_toBottomOf="@id/temperature_image"/>
+        app:layout_constraintBottom_toBottomOf="@id/temperature_image"
+        app:layout_constraintTop_toBottomOf="@id/location" />
 
     <TextView
         android:id="@+id/wind_speed"
