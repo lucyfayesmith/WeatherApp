@@ -198,8 +198,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "launchActivity: activityDetails");
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
-
-
     }
 
     public void onConfigurationChanged(@NotNull Configuration newConfig) {
@@ -212,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
                 drawerLayout.openDrawer(GravityCompat.START);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-
             }
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
