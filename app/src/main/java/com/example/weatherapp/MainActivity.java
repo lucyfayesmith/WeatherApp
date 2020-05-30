@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
-    private static final String SELECTED_UNIT = "metric";
+    private static final String SELECTED_UNIT = "Metric";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateMainScreen() throws JSONException {
         location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
         temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
-        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
