@@ -13,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -49,6 +52,9 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    ContentValues values = new ContentValues();
+//    MyContentProvider myProvider;
 //    Application application = getApplication();
 
     private SharedPreferences pref;
@@ -85,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        myProvider = new MyContentProvider();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
@@ -352,6 +360,29 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog alert = builder.create();
         alert.show();
     }
+
+    public void doSaveContent (View view){
+        values.put("emp_name", e1.getText().toString());//TODO jjsanda insert a string to the database
+        values.put("profile", e2.getText().toString());
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        Toast.makeText(this, uri.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    public void doLoadContent (View view){
+         Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+         StringBuilder stringBuilder = new StringBuilder();
+
+         while (cr.moveToNext()){
+            int id = cr.getInt(0);
+            String s1 = cr.getString(1);
+            String s2 = cr.getString(2);
+            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+         }
+         Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+
+    }
+
 
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");

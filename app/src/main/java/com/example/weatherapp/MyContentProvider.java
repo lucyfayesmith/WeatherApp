@@ -108,7 +108,7 @@ public class MyContentProvider extends ContentProvider {
 
         cr.setNotificationUri(getContext().getContentResolver(),uri);
 
-
+        return cr;
     }
 
     @Override
