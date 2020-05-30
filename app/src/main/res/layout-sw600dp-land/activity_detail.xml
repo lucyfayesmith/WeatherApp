@@ -11,11 +11,9 @@
     tools:context=".DetailActivity">
 
     <!--    Tool Bar Layout -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,72 +23,56 @@
             app:title=""
             app:titleTextColor="@android:color/white">
 
-            <ProgressBar
-                android:id="@+id/loading_indicator"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:visibility="invisible"/>
-
         </androidx.appcompat.widget.Toolbar>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
     <!--    Extra weather details, RecyclerView, Navigation Bar-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/layout"
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/extra_weather"
+            layout="@layout/extra_weather_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@id/recyclerView2"
+            app:layout_constraintBaseline_toBaselineOf="@id/recyclerView2" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_toRightOf="@id/navigation_view">
-
-                <include
-                    android:id="@+id/extra_weather"
-                    layout="@layout/extra_weather_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:layout_gravity="center_vertical"
-                    app:layout_constraintBottom_toTopOf="@id/recyclerView2"
-                    app:layout_constraintBaseline_toBaselineOf="@id/recyclerView2"
-                    app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="#2e3ca2"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_gravity="bottom"/>
-
-            </LinearLayout>
-
-            <com.google.android.material.navigation.NavigationView
-                android:id="@+id/navigation_view"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:clipToPadding="false"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:menu="@menu/main_menu"/>
-
-        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#2e3ca2"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/extra_weather"
+            android:layout_gravity="bottom"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:clipToPadding="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:menu="@menu/main_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 
