@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weatherapp.db.entity.Location;
 
@@ -39,6 +40,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         @Override
         public void onClick(View v) {
             int mPosition = getLayoutPosition();
+            Toast.makeText(v.getContext(), "Location successfully deleted!", Toast.LENGTH_SHORT).show();
             MainActivity.getRepository().deleteLocation(mLocations.get(mPosition));
             mAdapter.notifyDataSetChanged();
         }

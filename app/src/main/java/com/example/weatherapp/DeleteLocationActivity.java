@@ -43,8 +43,6 @@ public class DeleteLocationActivity extends AppCompatActivity {
 
         });
 
-        Toast.makeText(this, "Location successfully deleted!", Toast.LENGTH_SHORT).show();
-
     }
 
 }
