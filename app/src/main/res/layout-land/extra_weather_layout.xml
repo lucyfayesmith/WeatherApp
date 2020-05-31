@@ -35,7 +35,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/title">
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toTopOf="@id/view1">
 
         <ImageView
             android:id="@+id/sunrise_image"
@@ -81,7 +82,8 @@
         android:background="@android:color/white"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        app:layout_constraintBottom_toBottomOf="@id/layout1"/>
+        app:layout_constraintBottom_toBottomOf="@id/layout1"
+        app:layout_constraintTop_toTopOf="@id/layout2"/>
 
 
     <LinearLayout

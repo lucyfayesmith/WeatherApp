@@ -44,7 +44,7 @@
             android:id="@+id/extra_weather"
             layout="@layout/extra_weather_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             app:layout_constraintBottom_toTopOf="@id/recyclerView2"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -58,16 +58,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_gravity="bottom"/>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:clipToPadding="false"
-        app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
