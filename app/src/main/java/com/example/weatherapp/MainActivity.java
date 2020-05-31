@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -32,11 +33,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
@@ -46,11 +52,13 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -62,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
-    private static final String SELECTED_UNIT = "SelectedUnit";
+    private static final String SELECTED_UNIT = "metric";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -76,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView widgetTemperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
+    static boolean mTwoPane;
 
     private String locationProvider;
     private String temperatureProvider;
@@ -89,12 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int REQUEST_LOCATION = 1;
-    private static String CURRENT_WEATHER_DATA_JSON;
-    private static String ONECALL_WEATHER_DATA_JSON;
+    public static String CURRENT_WEATHER_DATA_JSON;
+    public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
     public WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
+//    private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
     private LocationViewModel locationViewModel;
 
@@ -108,21 +118,44 @@ public class MainActivity extends AppCompatActivity {
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
 
 
-        unitPreference =pref.getInt(SELECTED_UNIT,0);
-
+        unitPreference = pref.getInt(SELECTED_UNIT, 0);
 
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
         drawerLayout = findViewById(R.id.drawer);
-
+//        drawerLand = findViewById(R.id.drawer_land);
 
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
 
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        setUpToolbar();
 
-        setupToolbar();
+        if (findViewById(R.id.drawer) != null) {
+            //Phone layout
+            mTwoPane = false;
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            setUpNavDrawer();
+
+        } else {
+            //Tablet layout
+            mTwoPane = true;
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                setUpNavDrawer();
+            }
+
+           else {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+                setUpNavDrawer();
+
+            }
+
+        }
+
+        NavigationView navigationView = findViewById(R.id.navigation_view);
         createMenu(navigationView);
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -133,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getTitle().equals("Current Location")) {
                 currentLocationData();
             } else if (item.getGroupId() == R.id.unit) {
-                if(item.getTitle().equals("Metric"))
+                if (item.getTitle().equals("Metric"))
                     unitPreference = 0;
-                if(item.getTitle().equals("Imperial"))
+                if (item.getTitle().equals("Imperial"))
                     unitPreference = 1;
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putInt(SELECTED_UNIT, unitPreference);
@@ -144,9 +177,12 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 makeSearchQueryMenu(item.getTitle().toString());
             }
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
+            if (!mTwoPane) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+            return mTwoPane;
         });
+
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -184,19 +220,33 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "launchActivity: activityDetails");
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
+
+
     }
 
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            if (findViewById(R.id.drawer) == null) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+
+            }
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            //Automatically hides nav bar if tablet is portrait
+            if (findViewById(R.id.drawer) == null) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
         }
     }
-
 
     private void createMenu(NavigationView navigationView) {
 
@@ -211,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             item.setIcon(R.mipmap.ic_launcher);
             item.setCheckable(true);
 
-            for (int i = 1; i < locations.size(); i++) {
+            for (int i = 0; i < locations.size(); i++) {
                 item = menu.add(R.id.locations, i, 0, locations.get(i).getLocation());
                 item.setIcon(R.mipmap.ic_launcher);
                 item.setCheckable(true);
@@ -228,21 +278,52 @@ public class MainActivity extends AppCompatActivity {
             item = menu.add(R.id.unit, 0, 2, "Imperial");
             item.setIcon(R.mipmap.ic_launcher);
             item.setCheckable(true);
-
-
         });
     }
 
-    private void setupToolbar() {
+    private void setUpNavDrawer() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (myToolbar != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
+            drawerLayout.addDrawerListener(drawerToggle);
+            drawerToggle.syncState();
+        }
     }
+
+    private void setUpToolbar() {
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (myToolbar != null) {
+            setSupportActionBar(myToolbar);
+            setSupportActionBar(myToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+
+//    private void setupToolbar() {
+//
+//        drawerLayout = findViewById(R.id.drawer);
+//
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.open, R.string.close);
+//
+//        drawerLayout.addDrawerListener(drawerToggle);
+//        drawerToggle.syncState();
+
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -297,8 +378,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         getImages();
-
-
     }
 
     private Location getLocation() {
@@ -434,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
     private void getImages() {
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
-        String[] days = {"Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"};
+        String[] days = {"Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"};
         String[] dailyTemp = new String[7];
         String[] dailyIcon = new String[7];
 
@@ -447,6 +526,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        mImageUrls.clear();
+        mDays.clear();
+        mTemperature.clear();
 
         for (int i = 0; i <= 6; i++) {
             mImageUrls.add(getImageFromDrawable(dailyIcon[i]));
@@ -516,8 +599,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
-        String omg = uri.toString();
-        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {
@@ -596,7 +678,6 @@ public class MainActivity extends AppCompatActivity {
             LoadingIndicator.setVisibility(View.INVISIBLE);
 
             if (s != null && !s.equals("")) {
-                Log.d("JsonData", s[1]);
                 ONECALL_WEATHER_DATA_JSON = s[0];
                 CURRENT_WEATHER_DATA_JSON = s[1];
                 try {
@@ -637,6 +718,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }

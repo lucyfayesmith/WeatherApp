@@ -3,54 +3,86 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="#485cbd"
+    android:id="@+id/drawer"
     tools:context=".MainActivity"
-    android:screenOrientation="landscape"
-    android:configChanges="orientation|screenSize|keyboardHidden">
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <!--    Tool Bar Layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:title=""
             app:titleTextColor="@android:color/white">
+
+            <ProgressBar
+                android:id="@+id/loading_indicator"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
         </androidx.appcompat.widget.Toolbar>
 
-        <include
-            android:id="@+id/forecast"
-            layout="@layout/daily_forecast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <RelativeLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        </androidx.recyclerview.widget.RecyclerView>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/mainLayout">
+
+                <include
+                    android:id="@+id/forecast"
+                    layout="@layout/daily_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    app:layout_constraintBaseline_toBaselineOf="@id/recyclerView"
+                    app:layout_constraintBottom_toTopOf="@id/recyclerView"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#2e3ca2"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_gravity="bottom"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="left"
         android:clipToPadding="false"
-        app:menu="@menu/main_menu"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/main_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-
-
-
 
