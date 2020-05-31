@@ -20,4 +20,24 @@
     <string name="empty_not_saved">City not saved because it is empty.</string>
     <string name="unit_of_preference">Unit of Preference</string>
 
+    <string name="current_location">Current Location</string>
+    <string name="units">Units</string>
+    <string name="metric">Metric</string>
+    <string name="imperial">Imperial</string>
+    <string name="_26_xb0">-</string>
+    <string name="precipitation">-</string>
+    <string name="windSpeed">-</string>
+    <string name="weather_icon_description">Icon representing the weather</string>
+    <string name="raindrop_image">Raindrop image</string>
+    <string name="image_representing_wind">Image representing wind</string>
+    <string name="temperature">-</string>
+    <string name="default_wind_speed">-</string>
+    <string name="wind_speed_image">Wind speed image</string>
+    <string name="rain_image">Rain image</string>
+    <string name="_30">30%</string>
+    <string name="default_temperature">-°</string>
+    <string name="icon_describing_weather">Icon describing weather</string>
+    <string name="todays_weather">Today\'s Weather</string>
+    <string name="location">Location</string>
+    <string name="null_temp">-</string>
 </resources>

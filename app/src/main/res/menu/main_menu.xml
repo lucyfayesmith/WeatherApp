@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <group
-        android:id="@+id/locations"
-        android:checkableBehavior="single" />
+<group
+    android:id="@+id/locations"
+    android:checkableBehavior="single" />
 
 
-    <group android:id="@+id/add_location"/>
+<group android:id="@+id/location_functions"/>
 
 
-    <group
-        android:id="@+id/unit"
-        android:checkableBehavior="single"/>
+<group
+    android:id="@+id/unit"
+    android:checkableBehavior="single"/>
 
 
 </menu>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#485cbd"
+    android:paddingLeft="50dp">
+
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:gravity="center"
+        android:text="@string/current_location_here"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#F8F8FF"
+        android:textSize="35sp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+    
+
+    <ImageView
+        android:id="@+id/weather_icon"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintRight_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/cloud" />
+
+
+    <ImageView
+        android:id="@+id/temperature_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/location"
+        app:srcCompat="@drawable/max_temperature" />
+
+
+    <ImageView
+        android:id="@+id/wind_speed_image"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:paddingStart="15dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/temperature_image"
+        app:srcCompat="@drawable/wind_speed" />
+
+
+    <ImageView
+        android:id="@+id/rain_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintLeft_toRightOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/wind_speed_image"
+        app:srcCompat="@drawable/rain_drop" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20dp"
+        android:text="30C"
+        android:textColor="#F8F8FF"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@id/guideline3"
+        app:layout_constraintBottom_toBottomOf="@id/temperature_image"
+        app:layout_constraintTop_toBottomOf="@id/location" />
+
+    <TextView
+        android:id="@+id/wind_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temperature"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20dp"
+        android:text="6km/h"
+        android:textColor="#F8F8FF"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@id/guideline3"
+        app:layout_constraintBottom_toBottomOf="@id/wind_speed_image"/>
+
+    <TextView
+        android:id="@+id/rain_possibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wind_speed"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20dp"
+        android:text="30%"
+        android:textColor="#F8F8FF"
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@id/guideline3"
+        app:layout_constraintBottom_toBottomOf="@id/rain_image"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

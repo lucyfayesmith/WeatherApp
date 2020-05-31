@@ -48,11 +48,11 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.weather_app_widget_phone);
 //        views.setTextViewText(R.id.appwidget_text, widgetText);
-        views.setTextViewText(R.id.appwidget_id, String.valueOf(appWidgetId));
+//        views.setTextViewText(R.id.appwidget_id, String.valueOf(appWidgetId));
 //        set date to last update (view text)
-        views.setTextViewText(R.id.appwidget_update,
-                context.getResources().getString(
-                        R.string.date_count_format, count, dateString));
+//        views.setTextViewText(R.id.appwidget_update,
+//                context.getResources().getString(
+//                        R.string.date_count_format, count, dateString));
 
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.putInt(COUNT_KEY + appWidgetId, count);
@@ -67,7 +67,7 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
                 context, appWidgetId, intentUpdate,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        views.setOnClickPendingIntent(R.id.button_update, pendingUpdate);
+//        views.setOnClickPendingIntent(R.id.button_update, pendingUpdate);
 
 
 //</ code for debuging

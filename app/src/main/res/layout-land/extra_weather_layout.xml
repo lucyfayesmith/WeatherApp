@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/extra_weather"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#485cbd"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Today's Weather"
+            android:textSize="30sp"
+            android:paddingBottom="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/primary_text_dark"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toTopOf="@id/view1">
+
+        <ImageView
+            android:id="@+id/sunrise_image"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:paddingLeft="40dp"
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/sunrise" />
+
+        <TextView
+            android:id="@+id/sunrise_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="40dp"
+            android:textSize="30sp"
+            tools:text="6:30am"
+            android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:id="@+id/sunset_image"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:paddingLeft="40dp"
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/sunset" />
+
+        <TextView
+            android:id="@+id/sunset_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingRight="40dp"
+            android:textSize="30sp"
+            tools:text="7:40pm"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/layout1"
+        app:layout_constraintTop_toTopOf="@id/layout2"/>
+
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/max_temp_image"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:baselineAlignBottom="true"
+            app:srcCompat="@drawable/max_temperature" />
+
+        <TextView
+            android:id="@+id/max_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="40dp"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="220dp"
+            tools:text="25&#xb0;" />
+
+        <ImageView
+            android:id="@+id/min_temp_image"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/min_temp"/>
+
+        <TextView
+            android:id="@+id/min_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            tools:text="25&#xb0;" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

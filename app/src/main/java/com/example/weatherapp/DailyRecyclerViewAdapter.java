@@ -14,17 +14,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-//TODO: This is exactly the same code as the HourlyRecyclerView, however it has to be implemented to retrieve
-// daily weather for one week
-
 public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecyclerViewAdapter.ViewHolder>{
 
     private static final String TAG = "DailyRecyclerViewAdapter";
 
     //vars
-    private ArrayList<Integer> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mDays = new ArrayList<>();
-    private ArrayList<String> mTemperature = new ArrayList<>();
+    private static ArrayList<Integer> mImageUrls = null;
+    private static ArrayList<String> mDays = null;
+    private static ArrayList<String> mTemperature = null;
     private Context mContext;
 
     public DailyRecyclerViewAdapter(Context context, ArrayList<String> days, ArrayList<Integer> imageUrls, ArrayList<String> temp) {

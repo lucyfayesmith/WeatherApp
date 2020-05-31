@@ -1,4 +1,4 @@
-<resources>
+<resources>wordItemView
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 
     <style name="AppWidgetLine" parent="@android:style/Widget">
         <item name="android:padding">8dp</item>
@@ -71,4 +72,17 @@
     </style>
 
 <!--    /style for monitor updates-->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="word_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:background">#ffffff</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+    </style>
 </resources>
