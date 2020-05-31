@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <style name="AppWidgetLine" parent="@android:style/Widget">
         <item name="android:padding">8dp</item>
         <item name="android:layout_marginTop">12dp</item>
@@ -72,6 +71,7 @@
     </style>
 
 <!--    /style for monitor updates-->
+
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>

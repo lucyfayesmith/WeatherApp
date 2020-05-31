@@ -19,7 +19,6 @@
     <string name="button_save">Save</string>
     <string name="empty_not_saved">City not saved because it is empty.</string>
     <string name="unit_of_preference">Unit of Preference</string>
-
     <string name="current_location">Current Location</string>
     <string name="units">Units</string>
     <string name="metric">Metric</string>
@@ -40,4 +39,5 @@
     <string name="todays_weather">Today\'s Weather</string>
     <string name="location">Location</string>
     <string name="null_temp">-</string>
+
 </resources>

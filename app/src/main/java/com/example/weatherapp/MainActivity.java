@@ -36,6 +36,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -591,6 +593,7 @@ public class MainActivity extends AppCompatActivity {
     public static WeatherAppRepository getRepository()
     {
         return repository;
+//        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {

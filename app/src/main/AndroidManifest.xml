@@ -18,6 +18,9 @@
         android:theme="@style/AppTheme">
 
 
+
+        <activity android:name=".NewLocationActivity" />
+
         <receiver android:name=".weatherAppWidgetPhone">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -29,7 +32,6 @@
         </receiver>
 
         <activity android:name=".DeleteLocationActivity"></activity>
-        <activity android:name=".NewLocationActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
