@@ -36,7 +36,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

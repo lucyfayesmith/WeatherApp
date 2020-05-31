@@ -27,17 +27,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +45,6 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -76,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     ConstraintLayout mainLayout;
-    ActionBarDrawerToggle drawerToggle;
 
 
     private static final int REQUEST_LOCATION = 1;
@@ -86,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
-    private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
     private int deleteLocationActivityRequestCode = 2;
 
@@ -114,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         if (findViewById(R.id.drawer) != null) {
             //Phone layout
             mTwoPane = false;
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            drawerLayout = findViewById(R.id.drawer);
             setUpNavDrawer();
 
         } else {
@@ -159,21 +150,18 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-        LoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
-        location = (TextView) findViewById(R.id.location);
-        wind_speed = (TextView) findViewById(R.id.wind_speed);
-        humidity = (TextView) findViewById(R.id.rain_possibility);
-        temperature = (TextView) findViewById(R.id.temperature);
-        weather_icon = (ImageView) findViewById(R.id.weather_icon);
+        LoadingIndicator = findViewById(R.id.loading_indicator);
+        location = findViewById(R.id.location);
+        wind_speed = findViewById(R.id.wind_speed);
+        humidity = findViewById(R.id.rain_possibility);
+        temperature = findViewById(R.id.temperature);
+        weather_icon = findViewById(R.id.weather_icon);
 
-        //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
-        mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
-        mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "onClick: mainLayout");
-                launchActivity();
-            }
+        //OnClick method that will display activity_detail
+        mainLayout = findViewById(R.id.mainLayout);
+        mainLayout.setOnClickListener(v -> {
+            Log.e(TAG, "onClick: mainLayout");
+            launchActivity();
         });
 
         currentLocationData();

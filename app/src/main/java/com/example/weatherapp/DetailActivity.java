@@ -1,7 +1,5 @@
 package com.example.weatherapp;
 
-import android.Manifest;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -59,12 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         getImages();
     }
 
-    private void launch_Activity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen

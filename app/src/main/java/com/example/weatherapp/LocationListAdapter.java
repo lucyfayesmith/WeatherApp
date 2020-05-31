@@ -8,11 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.weatherapp.db.dao.LocationDao;
 import com.example.weatherapp.db.entity.Location;
 
-import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
@@ -26,10 +27,10 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     }
 
     class LocationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final TextView locationItemView;
+        final TextView locationItemView;
         final LocationListAdapter mAdapter;
 
-        public LocationViewHolder(View itemView, LocationListAdapter adapter) {
+        LocationViewHolder(View itemView, LocationListAdapter adapter) {
             super(itemView);
             locationItemView = itemView.findViewById(R.id.locationTextView);
             this.mAdapter = adapter;
@@ -39,19 +40,21 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         @Override
         public void onClick(View v) {
             int mPosition = getLayoutPosition();
+            Toast.makeText(v.getContext(), "Location successfully deleted!", Toast.LENGTH_SHORT).show();
             MainActivity.getRepository().deleteLocation(mLocations.get(mPosition));
             mAdapter.notifyDataSetChanged();
         }
     }
 
+    @NotNull
     @Override
-    public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LocationViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new LocationViewHolder(itemView,this);
     }
 
     @Override
-    public void onBindViewHolder(LocationViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull LocationViewHolder holder, int position) {
         if (mLocations != null) {
             Location current = mLocations.get(position);
             holder.locationItemView.setText(current.getLocation());

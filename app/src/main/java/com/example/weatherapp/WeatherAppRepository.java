@@ -6,7 +6,7 @@ package com.example.weatherapp;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.util.Log;
+
 
 import androidx.lifecycle.LiveData;
 
@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class WeatherAppRepository {
+class WeatherAppRepository {
 
     private LocationDao mLocationDao;
     private LiveData<List<Location>> mAllLocations;
@@ -42,9 +42,7 @@ public class WeatherAppRepository {
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
     void insertLocation(Location location) {
-        WeatherAppRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mLocationDao.insertLocation(location);
-        });
+        WeatherAppRoomDatabase.databaseWriteExecutor.execute(() -> mLocationDao.insertLocation(location));
     }
 
     void deleteLocation(Location location) {

@@ -22,18 +22,16 @@ public class NewLocationActivity extends AppCompatActivity {
         mEditLocationView = findViewById(R.id.edit_location);
 
         final Button button = findViewById(R.id.button_save);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(mEditLocationView.getText())) {
-                    setResult(RESULT_CANCELED, replyIntent);
-                } else {
-                    String word = mEditLocationView.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY, word);
-                    setResult(RESULT_OK, replyIntent);
-                }
-                finish();
+        button.setOnClickListener(view -> {
+            Intent replyIntent = new Intent();
+            if (TextUtils.isEmpty(mEditLocationView.getText())) {
+                setResult(RESULT_CANCELED, replyIntent);
+            } else {
+                String word = mEditLocationView.getText().toString();
+                replyIntent.putExtra(EXTRA_REPLY, word);
+                setResult(RESULT_OK, replyIntent);
             }
+            finish();
         });
     }
 }

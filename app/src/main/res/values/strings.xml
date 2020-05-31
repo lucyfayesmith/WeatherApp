@@ -31,4 +31,6 @@
     <string name="default_temperature">-°</string>
     <string name="icon_describing_weather">Icon describing weather</string>
     <string name="todays_weather">Today\'s Weather</string>
+    <string name="location">Location</string>
+    <string name="null_temp">-</string>
 </resources>
