@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#485cbd"
-    tools:context=".DetailActivity">
+    tools:context=".DetailActivity"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,9 +28,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mainLayout"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:id="@+id/loading_indicator"
@@ -37,7 +36,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView2"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -45,10 +44,10 @@
             android:id="@+id/extra_weather"
             layout="@layout/extra_weather_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center_vertical"
             app:layout_constraintBottom_toTopOf="@id/recyclerView2"
-            app:layout_constraintBaseline_toBaselineOf="@id/recyclerView2"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
@@ -57,8 +56,8 @@
             android:background="#2e3ca2"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/extra_weather"
             android:layout_gravity="bottom"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

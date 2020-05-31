@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
-    private static final String SELECTED_UNIT = "metric";
+    private static final String SELECTED_UNIT = "Metric";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     static boolean mTwoPane;
 
     LocationManager locationManager;
-    LinearLayout mainLayout;
+    ConstraintLayout mainLayout;
+    ActionBarDrawerToggle drawerToggle;
 
 
     private static final int REQUEST_LOCATION = 1;
@@ -83,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
     public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
-    private WeatherAppRepository repository;
+    private static WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
-//    private DrawerLayout drawerLand;
+    private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
+    private int deleteLocationActivityRequestCode = 2;
+
     private LocationViewModel locationViewModel;
 
 
@@ -102,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
-        drawerLayout = findViewById(R.id.drawer);
-//        drawerLand = findViewById(R.id.drawer_land);
 
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
@@ -119,20 +120,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Tablet layout
             mTwoPane = true;
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                setUpNavDrawer();
-            }
-
-           else {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-                setUpNavDrawer();
-
-            }
-
         }
+
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         createMenu(navigationView);
@@ -144,7 +133,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (item.getTitle().equals("Current Location")) {
                 currentLocationData();
-            } else if (item.getGroupId() == R.id.unit) {
+            } else if(item.getTitle().equals("Delete Location")){
+                Intent intent = new Intent(this, DeleteLocationActivity.class);
+                startActivityForResult(intent, deleteLocationActivityRequestCode);
+
+                return true;
+            }else if (item.getGroupId() == R.id.unit) {
                 if (item.getTitle().equals("Metric"))
                     unitPreference = 0;
                 if (item.getTitle().equals("Imperial"))
@@ -173,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
         //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
-        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,20 +204,16 @@ public class MainActivity extends AppCompatActivity {
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            if (findViewById(R.id.drawer) == null) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.openDrawer(GravityCompat.START);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-            }
+//            if (findViewById(R.id.drawer) != null) {
+//                drawerToggle.onConfigurationChanged(newConfig);
+//            }
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
             //Automatically hides nav bar if tablet is portrait
-            if (findViewById(R.id.drawer) == null) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            }
+//            if (findViewById(R.id.drawer) != null) {
+//                drawerToggle.onConfigurationChanged(newConfig);
+//            }
         }
     }
 
@@ -246,8 +236,12 @@ public class MainActivity extends AppCompatActivity {
                 item.setCheckable(true);
             }
 
-            item = menu.add(R.id.add_location, 0, 1, "Add Location");
+            item = menu.add(R.id.location_functions, 0, 1, "Add Location");
             item.setIcon(R.drawable.ic_add);
+            item.setCheckable(true);
+
+            item = menu.add(R.id.location_functions, 0, 1, "Delete Location");
+            item.setIcon(R.drawable.ic_remove);
             item.setCheckable(true);
 
             item = menu.add(R.id.unit, 0, 1, "Metric");
@@ -315,16 +309,17 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == newLocationActivityRequestCode && resultCode == RESULT_OK) {
-            com.example.weatherapp.db.entity.Location location = new com.example.weatherapp.db.entity.Location(data.getStringExtra(NewLocationActivity.EXTRA_REPLY));
-            new cityExistsTask().execute(location);
-
-
-        } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();
+        if (requestCode == newLocationActivityRequestCode) {
+            if(resultCode == RESULT_OK) {
+                com.example.weatherapp.db.entity.Location location = new com.example.weatherapp.db.entity.Location(data.getStringExtra(NewLocationActivity.EXTRA_REPLY));
+                new cityExistsTask().execute(location);
+            }
+            else{
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.empty_not_saved,
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -352,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateMainScreen() throws JSONException {
         location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
         temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
-        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
@@ -454,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_WEEK); //gets the day of the week.
 
         try {
-            dailyTemp = this.repository.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
+            dailyTemp = repository.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
             dailyIcon = repository.getDailyIcons(ONECALL_WEATHER_DATA_JSON);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -492,6 +487,11 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    public static WeatherAppRepository getRepository()
+    {
+        return repository;
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {

@@ -75,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+
     /**
      * Retrieves the data from the API and stores them in the 3 parallel arrays. Its the data
      * for the 24h hourly forecast. First array stores the time, second the temperature and the
