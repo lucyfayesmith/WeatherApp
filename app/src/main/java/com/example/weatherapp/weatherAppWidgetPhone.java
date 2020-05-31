@@ -76,25 +76,72 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 
         views.setOnClickPendingIntent(R.id.button_update, pendingUpdate);
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+
 //</ code for debuging
+
+//        //        set data to layout from json which is called in MainActivity
+//        views.setTextViewText(R.id.AppWidgetTemper,
+//                String.valueOf(widgetTemper));
+//        views.setTextViewText(R.id.AppWidgetCity,
+//                String.valueOf(widgetCity));
+////        set data to layout from json which is called in MainActivity (drawable)
+//        Resources resources = context.getResources();
+//        final int resourceId = resources.getIdentifier("a"+"02d", "drawable",
+//                context.getPackageName());
+//        Drawable omg = resources.getDrawable(resourceId);
+//        views.setImageViewResource(R.id.weather_icon, resourceId);
+
+
+
+
+
+
+
+        Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+        StringBuilder stringBuilder = new StringBuilder();
+
+//        while (cr.moveToNext()){
+//            int id = cr.getInt(0);
+//            String s1 = cr.getString(1);
+//            String s2 = cr.getString(2);
+//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+//        }
+
+        cr.moveToLast();
+        String location = cr.getString(1);
+        String temperature = cr.getString(2);
+        String icon = cr.getString(5);
+
 
         //        set data to layout from json which is called in MainActivity
         views.setTextViewText(R.id.AppWidgetTemper,
-                String.valueOf(widgetTemper));
+                String.valueOf(temperature));
         views.setTextViewText(R.id.AppWidgetCity,
-                String.valueOf(widgetCity));
+                String.valueOf(location));
 //        set data to layout from json which is called in MainActivity (drawable)
         Resources resources = context.getResources();
-        final int resourceId = resources.getIdentifier("a"+"02d", "drawable",
-                context.getPackageName());
-        Drawable omg = resources.getDrawable(resourceId);
+//        final int resourceId = resources.getIdentifier("a"+icon, "drawable",
+//                context.getPackageName());
+        int  resourceId = MainActivity.getImageFromDrawable(icon);
+//        Drawable omg = resources.getDrawable(resourceId);
         views.setImageViewResource(R.id.weather_icon, resourceId);
 //        //set data
+//        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+//        //set data
 
 
  //        Application app = (Application) context.getApplicationContext();
@@ -104,6 +151,9 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 //        ((Activity) mContext).getApplication
 //        LocationManager locationManager = (LocationManager) Context.getSystemService(Context.LOCATION_SERVICE);
 //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+        // Instruct the widget manager to update the widget
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     @Override
@@ -124,17 +174,51 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    public void doLoading(View view, Context context){
+//    public void doLoading(View view, Context context){
+//        Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        while (cr.moveToNext()){
+//            int id = cr.getInt(0);
+//            String s1 = cr.getString(1);
+//            String s2 = cr.getString(2);
+//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+//        }
+////        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+//
+//    }
+
+        public static void doLoading(RemoteViews views, Context context){
         Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
         StringBuilder stringBuilder = new StringBuilder();
 
-        while (cr.moveToNext()){
-            int id = cr.getInt(0);
-            String s1 = cr.getString(1);
-            String s2 = cr.getString(2);
-            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
-        }
-        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+//        while (cr.moveToNext()){
+//            int id = cr.getInt(0);
+//            String s1 = cr.getString(1);
+//            String s2 = cr.getString(2);
+//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+//        }
+
+        cr.moveToLast();
+        String location = cr.getString(1);
+        String temperature = cr.getString(2);
+        String icon = cr.getString(5);
+
+
+        //        set data to layout from json which is called in MainActivity
+        views.setTextViewText(R.id.AppWidgetTemper,
+                String.valueOf(temperature));
+        views.setTextViewText(R.id.AppWidgetCity,
+                String.valueOf(location));
+//        set data to layout from json which is called in MainActivity (drawable)
+        Resources resources = context.getResources();
+//        final int resourceId = resources.getIdentifier("a"+icon, "drawable",
+//                context.getPackageName());
+          int  resourceId = MainActivity.getImageFromDrawable(icon);
+//        Drawable omg = resources.getDrawable(resourceId);
+        views.setImageViewResource(R.id.weather_icon, resourceId);
+//        //set data
+//        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
 
     }
 

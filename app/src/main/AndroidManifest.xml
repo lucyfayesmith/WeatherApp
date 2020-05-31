@@ -14,13 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <provider
-            android:name=".MyContentProvider"
-            android:authorities="com.example.weatherapp.mycontentprovider"
-            android:enabled="true"
-            android:exported="true"
-            android:readPermission="com.example.weatherapp.mycontentprovider.jjsanda"
-            android:writePermission="com.example.weatherapp.mycontentprovider.jjsanda"></provider>
+
 
         <receiver android:name=".weatherAppWidgetPhone">
             <intent-filter>
@@ -41,6 +35,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity" />
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="com.example.weatherapp.mycontentprovider"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.example.weatherapp.mycontentprovider"
+            android:writePermission="com.example.weatherapp.mycontentprovider" />
+
     </application>
 
 </manifest>

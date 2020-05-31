@@ -6,34 +6,35 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQuery;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import java.util.concurrent.ExecutionException;
+
 public class MyContentProvider extends ContentProvider {
-    SQLiteDatabase myDB;
+    private SQLiteDatabase myDB;
+    static final String DB_NAME = "company";
+    static final String DB_TABLE = "weather";
+    static final int DB_VER = 1;
+    static final String CREATE_DB_TABLE =
+            "CREATE TABLE " + DB_TABLE + "( _id integer PRIMARY KEY AUTOINCREMENT , location TEXT ,temperature TEXT , wind TEXT , humidity TEXT , weather_icon TEXT) ;";
 
-    private static final String DB_NAME = "company";
-    private static final String DB_TABLE = "emp";
-    private static final int DB_VER = 1;
-
-
-    public MyContentProvider() {
-    }
 
     public static final String AUTHIRITY = "com.example.weatherapp.mycontentprovider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHIRITY + "/emp");
+    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHIRITY + "/weather");
 
-    static int EMP = 1;
-    static int EMP_ID = 2;
+    static int WEATHER = 1;
+    static int WEATHER_ID = 2;
 
-    static UriMatcher myUri = new UriMatcher(UriMatcher.NO_MATCH);
+    static final UriMatcher myUri = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        myUri.addURI(AUTHIRITY,"emp", EMP);
-        myUri.addURI(AUTHIRITY, "emp/#", EMP_ID);
+        myUri.addURI(AUTHIRITY,"weather", WEATHER);
+        myUri.addURI(AUTHIRITY, "weather/#", WEATHER_ID);
     }
 
 
@@ -48,12 +49,15 @@ public class MyContentProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("create table " + DB_TABLE + "(_id integer primary key autoincrement, emp_name text, profile text);");
+            db.execSQL(CREATE_DB_TABLE);
+//            onCreate(db);
+//            db.execSQL("CREATE TABLE " + DB_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT,temperature TEXT,wind TEXT,humidity TEXT,weather_icon TEXT);");
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("drop table if exists " + DB_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + DB_TABLE);
+            onCreate(db);
         }
     }
 
@@ -78,10 +82,14 @@ public class MyContentProvider extends ContentProvider {
         long row = myDB.insert(DB_TABLE, null, values);
 
         if (row > 0){
-            uri = ContentUris.withAppendedId(CONTENT_URI, row);
-            getContext().getContentResolver().notifyChange(uri, null);
+            Uri _uri = ContentUris.withAppendedId(CONTENT_URI, row);
+            getContext().getContentResolver().notifyChange(_uri, null);
+//            return uri;
         }
+
         return uri;
+
+//        throw new SQLException("Failed to add a record into " +uri);
     }
 
     @Override
@@ -90,11 +98,7 @@ public class MyContentProvider extends ContentProvider {
 
         myDB = myHelper.getWritableDatabase();
 
-        if (myDB != null){
-            return true;
-        }else {
-            return false;
-        }
+        return (myDB == null)?false : true;
     }
 
     @Override

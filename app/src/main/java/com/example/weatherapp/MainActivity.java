@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +55,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ContentValues values = new ContentValues();
+
 //    MyContentProvider myProvider;
 //    Application application = getApplication();
 
@@ -73,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView widgetTemperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
+
+    private String locationProvider;
+    private String temperatureProvider;
+    private String windProvider;
+    private String humidityProvider;
+    private String weather_iconProvider;
+
 
     LocationManager locationManager;
     LinearLayout mainLayout;
@@ -271,11 +280,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateMainScreen() throws JSONException {
-        location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
-        temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
-        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
-        humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
-        weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
+
+
+        locationProvider = repository.getLocationName(CURRENT_WEATHER_DATA_JSON).toString();
+        temperatureProvider = repository.getTemperature(CURRENT_WEATHER_DATA_JSON).toString();
+        windProvider = repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON).toString();
+        humidityProvider = repository.getHumidity(CURRENT_WEATHER_DATA_JSON).toString();
+        weather_iconProvider = repository.getIcon(CURRENT_WEATHER_DATA_JSON).toString();
+
+        location.setText(locationProvider);
+        temperature.setText(temperatureProvider);
+        wind_speed.setText(windProvider);
+        humidity.setText(humidityProvider);
+        weather_icon.setImageResource(getImageFromDrawable(weather_iconProvider));
 
         //        set data on widget
         weatherAppWidgetPhone.widgetTemper = repository.getTemperature(CURRENT_WEATHER_DATA_JSON);
@@ -308,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public int getImageFromDrawable(String code) {
+    public static int getImageFromDrawable(String code) {
         switch (code) {
             case "01d":
                 return R.drawable.a01d;
@@ -361,27 +378,61 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void doSaveContent (View view){
-        values.put("emp_name", e1.getText().toString());//TODO jjsanda insert a string to the database
-        values.put("profile", e2.getText().toString());
+
+
+    private void doSaveContent () throws JSONException{
+        ContentValues values = new ContentValues();
+
+        values.put("location", locationProvider);
+        values.put("temperature", temperatureProvider);
+        values.put("wind", windProvider);
+        values.put("humidity", humidityProvider);
+        values.put("weather_icon", weather_iconProvider);
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
 
         Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
-        Toast.makeText(this, uri.toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_SHORT).show();
     }
 
-    public void doLoadContent (View view){
-         Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
-         StringBuilder stringBuilder = new StringBuilder();
+    public void doLoading(View view) {
+        Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+        StringBuilder stringBuilder = new StringBuilder();
 
-         while (cr.moveToNext()){
-            int id = cr.getInt(0);
-            String s1 = cr.getString(1);
-            String s2 = cr.getString(2);
-            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
-         }
-         Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+        while (cr.moveToNext()){
+            String location = cr.getString(1);
+            String temperature = cr.getString(2);
+            String icon = cr.getString(5);
+            stringBuilder.append(location + "    " +temperature+"     "+icon+"\n");
+        }
+
+        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+
+//        cr.moveToLast();
+//        String location = cr.getString(1);
+//        String temperature = cr.getString(2);
+//        String icon = cr.getString(5);
 
     }
+
+//    public void doLoadContent (View view){
+//         Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+//         StringBuilder stringBuilder = new StringBuilder();
+//
+//         while (cr.moveToNext()){
+//            int id = cr.getInt(0);
+//            String s1 = cr.getString(1);
+//            String s2 = cr.getString(2);
+//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+//         }
+//         Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+//
+//    }
 
 
     private void getImages() {
@@ -429,6 +480,27 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    public void doSaving(View view) throws JSONException {
+        ContentValues values = new ContentValues();
+
+        values.put("location", repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
+        values.put("temperature", repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
+        values.put("wind", repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        values.put("humidity", repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
+        values.put("weather_icon", repository.getIcon(CURRENT_WEATHER_DATA_JSON));
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        String omg = uri.toString();
+        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {
