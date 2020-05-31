@@ -37,6 +37,12 @@ public class NetworkCalls {
         return url;
     }
 
+    /**
+     * Builds the URL for the One Call API
+     * @param location location of the device
+     * @param unitPreference we tell the API if we want celsius of fahrenheit and km/h or Mph
+     * @return returns the URL that leads to the place with the information about the location
+     */
     public static URL buildUrlOneCall(Location location,int unitPreference) {
         String selectedUnit = null;
         if(unitPreference==0){
@@ -64,6 +70,12 @@ public class NetworkCalls {
         return url;
     }
 
+    /**
+     * Builds the URL for the Current Weather API
+     * @param location location of the device
+     * @param unitPreference we tell the API if we want celsius of fahrenheit and km/h or Mph
+     * @return returns the URL that leads to the place with the information about the location
+     */
     public static URL buildUrlCurrent(Location location,int unitPreference) {
 
         String selectedUnit = null;
@@ -92,6 +104,12 @@ public class NetworkCalls {
         return url;
     }
 
+    /**
+     * This method is not used at the moment as we are free API users but its a URL for the Hourly
+     * API
+     * @param location current device location
+     * @return
+     */
     public static URL buildUrlForHourly(Location location){
         String lon = (int) location.getLongitude() + "";
         String lat = (int) location.getLatitude() + "";
@@ -111,6 +129,12 @@ public class NetworkCalls {
         return url;
     }
 
+    /**
+     * Establishes connection and gets the response in JSON format from the corresponding URL
+     * @param url the URL we built for the corresponding info and API
+     * @return the results from the call (JSON string)
+     * @throws IOException
+     */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

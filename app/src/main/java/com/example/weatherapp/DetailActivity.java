@@ -44,7 +44,13 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Used from the on create method and its the main method that updates all the information
+     * of the Detail Activity Views.
+     * @throws JSONException
+     */
     private void updateMainScreen() throws JSONException {
+        if (MainActivity.CURRENT_WEATHER_DATA_JSON== null || MainActivity.ONECALL_WEATHER_DATA_JSON==null) return;
         mSunriseTime.setText(repository.getSunrise(MainActivity.CURRENT_WEATHER_DATA_JSON));
         mSunsetTime.setText(repository.getSunset(MainActivity.CURRENT_WEATHER_DATA_JSON));
         mMaxTemp.setText(repository.getMaxTemperature(MainActivity.CURRENT_WEATHER_DATA_JSON));
@@ -63,6 +69,13 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Retrieves the data from the API and stores them in the 3 parallel arrays. Its the data
+     * for the 24h hourly forecast. First array stores the time, second the temperature and the
+     * third the icon description which will later be parsed to match the correct image in the
+     * drawable
+     */
     private void getImages(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 
