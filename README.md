@@ -12,7 +12,7 @@ There is also the incoporation of a **widget** to accompany the main app that di
 
 In order to store the users desired locations for weather data retrieval we have implemented a local database using ROOM.
 
-## Installation
+## Installation:
 
 Due to the nature of emulators, upon first installation of this app it is neccessary to first open google maps to accept to any neccessary
 location restrications. 
