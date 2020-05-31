@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    public void doSaveContent (View view){
+    private void doSaveContent (View view){
         values.put("emp_name", e1.getText().toString());//TODO jjsanda insert a string to the database
         values.put("profile", e2.getText().toString());
 

@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
@@ -121,8 +124,24 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
+    public void doLoading(View view, Context context){
+        Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        while (cr.moveToNext()){
+            int id = cr.getInt(0);
+            String s1 = cr.getString(1);
+            String s2 = cr.getString(2);
+            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+        }
+        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+
+    }
+
     public static Drawable GetImage(Context c, String ImageName) {
         return c.getResources().getDrawable(c.getResources().getIdentifier(ImageName, "drawable", c.getPackageName()));
     }
+
+
 }
 
