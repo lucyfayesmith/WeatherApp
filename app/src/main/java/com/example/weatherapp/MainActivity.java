@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
@@ -168,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         currentLocationData();
-
     }
 
     private void currentLocationData() {
@@ -282,17 +282,13 @@ public class MainActivity extends AppCompatActivity {
     public void updateMainScreen() throws JSONException {
 
 
-        locationProvider = repository.getLocationName(CURRENT_WEATHER_DATA_JSON).toString();
-        temperatureProvider = repository.getTemperature(CURRENT_WEATHER_DATA_JSON).toString();
-        windProvider = repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON).toString();
-        humidityProvider = repository.getHumidity(CURRENT_WEATHER_DATA_JSON).toString();
-        weather_iconProvider = repository.getIcon(CURRENT_WEATHER_DATA_JSON).toString();
+        location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
+        temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
+        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
+        weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
 
-        location.setText(locationProvider);
-        temperature.setText(temperatureProvider);
-        wind_speed.setText(windProvider);
-        humidity.setText(humidityProvider);
-        weather_icon.setImageResource(getImageFromDrawable(weather_iconProvider));
+        doSaving();
 
         //        set data on widget
         weatherAppWidgetPhone.widgetTemper = repository.getTemperature(CURRENT_WEATHER_DATA_JSON);
@@ -483,6 +479,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doSaving(View view) throws JSONException {
+        ContentValues values = new ContentValues();
+
+        values.put("location", repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
+        values.put("temperature", repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
+        values.put("wind", repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        values.put("humidity", repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
+        values.put("weather_icon", repository.getIcon(CURRENT_WEATHER_DATA_JSON));
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        String omg = uri.toString();
+        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
+    }
+
+    public void doSaving() throws JSONException {
         ContentValues values = new ContentValues();
 
         values.put("location", repository.getLocationName(CURRENT_WEATHER_DATA_JSON));

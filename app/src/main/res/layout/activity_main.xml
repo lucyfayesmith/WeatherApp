@@ -16,18 +16,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="doSaving"
-            android:text="save"
-            android:id="@+id/saveButt"></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="doLoading"
-            android:text="load"
-            android:id="@+id/loadButt"></Button>
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="doSaving"-->
+<!--            android:text="save"-->
+<!--            android:id="@+id/saveButt"></Button>-->
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="doLoading"-->
+<!--            android:text="load"-->
+<!--            android:id="@+id/loadButt"></Button>-->
 
 
 

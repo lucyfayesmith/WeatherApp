@@ -1,7 +1,5 @@
 package com.example.weatherapp;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -11,13 +9,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
-import android.widget.Toast;
-
-import androidx.core.content.ContextCompat;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -91,55 +84,7 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 //        Drawable omg = resources.getDrawable(resourceId);
 //        views.setImageViewResource(R.id.weather_icon, resourceId);
 
-
-
-
-
-
-
-        Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
-        StringBuilder stringBuilder = new StringBuilder();
-
-//        while (cr.moveToNext()){
-//            int id = cr.getInt(0);
-//            String s1 = cr.getString(1);
-//            String s2 = cr.getString(2);
-//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
-//        }
-
-        cr.moveToLast();
-        String location = cr.getString(1);
-        String temperature = cr.getString(2);
-        String icon = cr.getString(5);
-
-
-        //        set data to layout from json which is called in MainActivity
-        views.setTextViewText(R.id.AppWidgetTemper,
-                String.valueOf(temperature));
-        views.setTextViewText(R.id.AppWidgetCity,
-                String.valueOf(location));
-//        set data to layout from json which is called in MainActivity (drawable)
-        Resources resources = context.getResources();
-//        final int resourceId = resources.getIdentifier("a"+icon, "drawable",
-//                context.getPackageName());
-        int  resourceId = MainActivity.getImageFromDrawable(icon);
-//        Drawable omg = resources.getDrawable(resourceId);
-        views.setImageViewResource(R.id.weather_icon, resourceId);
-//        //set data
-//        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
-
-
-
-
-
-
-
-
-
-
-
-
-
+        doLoadingProvider(views,context);
 
 //        //set data
 
@@ -188,9 +133,9 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 //
 //    }
 
-        public static void doLoading(RemoteViews views, Context context){
-        Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
-        StringBuilder stringBuilder = new StringBuilder();
+        public static void doLoadingProvider(RemoteViews views, Context context){
+            Cursor cr = context.getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+            StringBuilder stringBuilder = new StringBuilder();
 
 //        while (cr.moveToNext()){
 //            int id = cr.getInt(0);
@@ -199,27 +144,26 @@ public class weatherAppWidgetPhone extends AppWidgetProvider {
 //            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
 //        }
 
-        cr.moveToLast();
-        String location = cr.getString(1);
-        String temperature = cr.getString(2);
-        String icon = cr.getString(5);
+            cr.moveToLast();
+            String location = cr.getString(1);
+            String temperature = cr.getString(2);
+            String icon = cr.getString(5);
 
 
-        //        set data to layout from json which is called in MainActivity
-        views.setTextViewText(R.id.AppWidgetTemper,
-                String.valueOf(temperature));
-        views.setTextViewText(R.id.AppWidgetCity,
-                String.valueOf(location));
+            //        set data to layout from json which is called in MainActivity
+            views.setTextViewText(R.id.AppWidgetTemper,
+                    String.valueOf(temperature));
+            views.setTextViewText(R.id.AppWidgetCity,
+                    String.valueOf(location));
 //        set data to layout from json which is called in MainActivity (drawable)
-        Resources resources = context.getResources();
+            Resources resources = context.getResources();
 //        final int resourceId = resources.getIdentifier("a"+icon, "drawable",
 //                context.getPackageName());
-          int  resourceId = MainActivity.getImageFromDrawable(icon);
+            int  resourceId = MainActivity.getImageFromDrawable(icon);
 //        Drawable omg = resources.getDrawable(resourceId);
-        views.setImageViewResource(R.id.weather_icon, resourceId);
+            views.setImageViewResource(R.id.weather_icon, resourceId);
 //        //set data
 //        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
-
     }
 
     public static Drawable GetImage(Context c, String ImageName) {
