@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -26,12 +27,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,6 +45,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -79,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
+    private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
     private int deleteLocationActivityRequestCode = 2;
 
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
         drawerLayout = findViewById(R.id.drawer);
-
+        drawerLand = findViewById(R.id.drawer_land);
 
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
@@ -106,13 +113,27 @@ public class MainActivity extends AppCompatActivity {
         setUpToolbar();
 
         if (findViewById(R.id.drawer) != null) {
-//            Phone layout
+            //Phone layout
             mTwoPane = false;
-
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
             setUpNavDrawer();
+
         } else {
+            //Tablet layout
             mTwoPane = true;
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                setUpNavDrawer();
+            }
+
+           else {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+                setUpNavDrawer();
+
+            }
+
         }
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -144,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             if (!mTwoPane) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
-            return true;
+            return mTwoPane;
         });
 
 
@@ -183,18 +204,28 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "launchActivity: activityDetails");
         Intent intent = new Intent(this, DetailActivity.class);
         startActivity(intent);
-
-
     }
 
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            if (findViewById(R.id.drawer) == null) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            }
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            //Automatically hides nav bar if tablet is portrait
+            if (findViewById(R.id.drawer) == null) {
+                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
         }
     }
 
