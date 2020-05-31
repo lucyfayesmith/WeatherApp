@@ -58,74 +58,74 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/section_id"
-        style="@style/AppWidgetSection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/mainLine"
-        android:layout_marginTop="191dp"
-        >
+<!--    <LinearLayout-->
+<!--        android:id="@+id/section_id"-->
+<!--        style="@style/AppWidgetSection"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_below="@id/mainLine"-->
+<!--        android:layout_marginTop="191dp"-->
+<!--        >-->
 
-        <TextView
-            android:id="@+id/appWidget_id_label"
-            style="@style/AppWidgetLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Widget ID">
+<!--        <TextView-->
+<!--            android:id="@+id/appWidget_id_label"-->
+<!--            style="@style/AppWidgetLabel"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="2"-->
+<!--            android:text="Widget ID">-->
 
-        </TextView>
+<!--        </TextView>-->
 
-        <TextView
-            android:id="@+id/appwidget_id"
-            style="@style/AppWidgetText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="XX"></TextView>
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/appwidget_id"-->
+<!--            style="@style/AppWidgetText"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="XX"></TextView>-->
+<!--    </LinearLayout>-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/section_update"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/section_id"
-        android:orientation="vertical"
-        style="@style/AppWidgetSection">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/section_update"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_below="@+id/section_id"-->
+<!--        android:orientation="vertical"-->
+<!--        style="@style/AppWidgetSection">-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/appwidget_update_label"
-            android:layout_marginBottom="2dp"
-            android:text="Last Update"
-            style="@style/AppWidgetLabel">
-        </TextView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/appwidget_update"
-            android:layout_weight="1"
-            android:text="@string/date_count_format"
-            style="@style/AppWidgetText">
-        </TextView>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/appwidget_update_label"-->
+<!--            android:layout_marginBottom="2dp"-->
+<!--            android:text="Last Update"-->
+<!--            style="@style/AppWidgetLabel">-->
+<!--        </TextView>-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/appwidget_update"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@string/date_count_format"-->
+<!--            style="@style/AppWidgetText">-->
+<!--        </TextView>-->
 
-    </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_update"
-        android:layout_below="@id/section_update"
-        android:layout_centerHorizontal="true"
-        android:text="Update now"
-        style="@style/AppWidgetButton">
+<!--    </LinearLayout>-->
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/button_update"-->
+<!--        android:layout_below="@id/section_update"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="Update now"-->
+<!--        style="@style/AppWidgetButton">-->
 
-    </Button>
+<!--    </Button>-->
 
 
     <!--        app:layout_constraintEnd_toEndOf="parent"-->
