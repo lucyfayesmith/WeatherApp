@@ -64,6 +64,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     void setLocations(List<Location> locations) {
         mLocations = locations;
         notifyDataSetChanged();
+
     }
 
     @Override

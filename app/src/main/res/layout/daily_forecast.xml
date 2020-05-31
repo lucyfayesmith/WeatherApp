@@ -40,8 +40,7 @@
         android:textColor="#F8F8FF"
         android:textSize="100sp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="@+id/weather_icon"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/weather_icon" />
 
     <TextView
@@ -63,9 +62,9 @@
         android:id="@+id/rain_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/rain_possibility"
-        app:layout_constraintStart_toEndOf="@+id/temperature"
+        app:layout_constraintLeft_toLeftOf="@id/guideline"
         app:srcCompat="@drawable/rain_drop"
         android:contentDescription="@string/raindrop_image" />
 
@@ -82,16 +81,20 @@
         android:id="@+id/wind_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="28dp"
         android:text="@string/windSpeed"
         android:textColor="#F8F8FF"
         android:textSize="20sp"
-        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintLeft_toLeftOf="@+id/rain_possibility"
         app:layout_constraintRight_toRightOf="@id/rain_possibility"
         app:layout_constraintTop_toTopOf="@+id/temperature" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

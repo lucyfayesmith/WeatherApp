@@ -69,8 +69,6 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: The data used in the getImages below has to be retrieved from weather database,
-    // it should retrieve hourly forecast for current day and store it, decide how this should be display (eg, 24hr time, am/pm)
     private void getImages(){
         Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
 

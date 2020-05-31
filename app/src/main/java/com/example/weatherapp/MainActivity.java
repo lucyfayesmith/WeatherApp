@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     static boolean mTwoPane;
 
     LocationManager locationManager;
-    LinearLayout mainLayout;
+    ConstraintLayout mainLayout;
+    ActionBarDrawerToggle drawerToggle;
 
 
     private static final int REQUEST_LOCATION = 1;
@@ -104,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: started.");
         repository = new WeatherAppRepository(getApplication());
-        drawerLayout = findViewById(R.id.drawer);
-        drawerLand = findViewById(R.id.drawer_land);
 
         locationViewModel = new LocationViewModel(getApplication());
         initRecyclerView();
@@ -121,20 +120,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Tablet layout
             mTwoPane = true;
-            int orientation = getResources().getConfiguration().orientation;
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                setUpNavDrawer();
-            }
-
-           else {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-                setUpNavDrawer();
-
-            }
-
         }
+
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         createMenu(navigationView);
@@ -149,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             } else if(item.getTitle().equals("Delete Location")){
                 Intent intent = new Intent(this, DeleteLocationActivity.class);
                 startActivityForResult(intent, deleteLocationActivityRequestCode);
+
                 return true;
             }else if (item.getGroupId() == R.id.unit) {
                 if (item.getTitle().equals("Metric"))
@@ -179,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
         //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
-        mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
+        mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,20 +200,16 @@ public class MainActivity extends AppCompatActivity {
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            if (findViewById(R.id.drawer) == null) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.openDrawer(GravityCompat.START);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-            }
+//            if (findViewById(R.id.drawer) != null) {
+//                drawerToggle.onConfigurationChanged(newConfig);
+//            }
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
             //Automatically hides nav bar if tablet is portrait
-            if (findViewById(R.id.drawer) == null) {
-                drawerLayout = (DrawerLayout) findViewById(R.id.drawer_land);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            }
+//            if (findViewById(R.id.drawer) != null) {
+//                drawerToggle.onConfigurationChanged(newConfig);
+//            }
         }
     }
 

@@ -12,8 +12,6 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-//TODO: This is exactly the same code as the DailyRecyclerView, however it has to be implemented to retrieve
-// hourly weather for one day
 
 public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecyclerViewAdapter.ViewHolder>{
 

@@ -1,6 +1,7 @@
 package com.example.weatherapp;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +40,11 @@ public class DeleteLocationActivity extends AppCompatActivity {
                 // Update the cached copy of the locations in the adapter.
                 adapter.setLocations(locations);
             }
+
         });
+
+        Toast.makeText(this, "Location successfully deleted!", Toast.LENGTH_SHORT).show();
+
     }
 
 }

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#485cbd"
     android:id="@+id/drawer_land"
     tools:context=".MainActivity">
 
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:clipToPadding="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:menu="@menu/main_menu"/>
+
+
     <!--    Tool Bar Layout -->
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:title=""
             app:titleTextColor="@android:color/white">
@@ -26,11 +37,15 @@
         </androidx.appcompat.widget.Toolbar>
 
     </LinearLayout>
+
+
     <!--    Extra weather details, RecyclerView, Navigation Bar-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/mainLayout"
+        android:layout_marginLeft="200dp">
 
         <ProgressBar
             android:id="@+id/loading_indicator"
@@ -47,9 +62,7 @@
             layout="@layout/daily_forecast"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            app:layout_constraintBottom_toTopOf="@id/recyclerView"
-            app:layout_constraintBaseline_toBaselineOf="@id/recyclerView" />
+            android:layout_gravity="center_vertical" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -58,23 +71,10 @@
             android:background="#2e3ca2"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forecast"
             android:layout_gravity="bottom"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:clipToPadding="false"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:menu="@menu/main_menu"/>
 
-
-
-
-
-</androidx.drawerlayout.widget.DrawerLayout>
-
+</RelativeLayout>

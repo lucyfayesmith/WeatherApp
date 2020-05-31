@@ -81,7 +81,7 @@ public class WeatherAppRepository {
         if(unit==0)
             windUnit = "km/h";
         else
-            windUnit = "mph";
+            windUnit = "mp/h";
 
         Double speed = wind.getDouble("speed");
         return speed + windUnit;
@@ -111,7 +111,7 @@ public class WeatherAppRepository {
 
         JSONArray daily = tempJSON.getJSONArray("daily");
 
-        for (int i=0; i<7; i++){
+        for (int i=0; i<8; i++){
             JSONObject thisDay = daily.getJSONObject(i+1);
             JSONObject tempThisDay = thisDay.getJSONObject("temp");
             Double tempDouble= tempThisDay.getDouble("day");
