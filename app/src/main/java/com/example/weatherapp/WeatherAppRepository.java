@@ -6,6 +6,7 @@ package com.example.weatherapp;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -72,12 +73,18 @@ public class WeatherAppRepository {
         return (tempInt+"\u00B0");
     }
 
-    String getWindSpeed(String jsonString) throws  JSONException{
+    String getWindSpeed(String jsonString,int unit) throws  JSONException{
         JSONObject obj = new JSONObject(jsonString);
         JSONObject wind = obj.getJSONObject("wind");
+        String windUnit;
+
+        if(unit==0)
+            windUnit = "km/h";
+        else
+            windUnit = "mph";
 
         Double speed = wind.getDouble("speed");
-        return (speed +"km/h");
+        return speed + windUnit;
     }
 
     String getHumidity(String jsonString) throws  JSONException{

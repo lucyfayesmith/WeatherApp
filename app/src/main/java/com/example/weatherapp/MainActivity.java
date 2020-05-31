@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
-    private static final String SELECTED_UNIT = "metric";
+    private static final String SELECTED_UNIT = "Metric";
 
     //vars
     private ArrayList<String> mDays = new ArrayList<>();
@@ -83,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
     public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
-    private WeatherAppRepository repository;
+    private static WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
     private DrawerLayout drawerLand;
     private int newLocationActivityRequestCode = 1;
+    private int deleteLocationActivityRequestCode = 2;
+
     private LocationViewModel locationViewModel;
 
 
@@ -144,7 +146,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (item.getTitle().equals("Current Location")) {
                 currentLocationData();
-            } else if (item.getGroupId() == R.id.unit) {
+            } else if(item.getTitle().equals("Delete Location")){
+                Intent intent = new Intent(this, DeleteLocationActivity.class);
+                startActivityForResult(intent, deleteLocationActivityRequestCode);
+                return true;
+            }else if (item.getGroupId() == R.id.unit) {
                 if (item.getTitle().equals("Metric"))
                     unitPreference = 0;
                 if (item.getTitle().equals("Imperial"))
@@ -242,8 +248,12 @@ public class MainActivity extends AppCompatActivity {
                 item.setCheckable(true);
             }
 
-            item = menu.add(R.id.add_location, 0, 1, "Add Location");
+            item = menu.add(R.id.location_functions, 0, 1, "Add Location");
             item.setIcon(R.drawable.ic_add);
+            item.setCheckable(true);
+
+            item = menu.add(R.id.location_functions, 0, 1, "Delete Location");
+            item.setIcon(R.drawable.ic_remove);
             item.setCheckable(true);
 
             item = menu.add(R.id.unit, 0, 1, "Metric");
@@ -312,16 +322,17 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == newLocationActivityRequestCode && resultCode == RESULT_OK) {
-            com.example.weatherapp.db.entity.Location location = new com.example.weatherapp.db.entity.Location(data.getStringExtra(NewLocationActivity.EXTRA_REPLY));
-            new cityExistsTask().execute(location);
-
-
-        } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();
+        if (requestCode == newLocationActivityRequestCode) {
+            if(resultCode == RESULT_OK) {
+                com.example.weatherapp.db.entity.Location location = new com.example.weatherapp.db.entity.Location(data.getStringExtra(NewLocationActivity.EXTRA_REPLY));
+                new cityExistsTask().execute(location);
+            }
+            else{
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.empty_not_saved,
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -338,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateMainScreen() throws JSONException {
         location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
         temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
-        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON));
+        wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
         getImages();
@@ -428,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
         try {
-            dailyTemp = this.repository.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
+            dailyTemp = repository.getDailyTemperatures(ONECALL_WEATHER_DATA_JSON);
             dailyIcon = repository.getDailyIcons(ONECALL_WEATHER_DATA_JSON);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -466,6 +477,11 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    public static WeatherAppRepository getRepository()
+    {
+        return repository;
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {
