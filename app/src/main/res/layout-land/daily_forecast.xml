@@ -93,7 +93,7 @@
         android:layout_height="match_parent"
         app:layout_constraintLeft_toRightOf="@id/extra_icons"
         app:layout_constraintRight_toRightOf="parent"
-        android:paddingRight="10dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/temperature"
@@ -112,12 +112,12 @@
             android:id="@+id/wind_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:text="6km/h"
-            android:textColor="#F8F8FF"
-            android:textSize="20sp"
             android:layout_below="@id/temperature"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="5dp"
+            android:text="15km/h"
+            android:textColor="#F8F8FF"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/rain_possibility"
