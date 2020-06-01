@@ -38,7 +38,7 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
     //inflates each individual layout
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder: called.");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hourly_layout_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -71,7 +71,7 @@ public class HourlyRecyclerViewAdapter extends RecyclerView.Adapter<HourlyRecycl
         ViewHolder(View itemView) {
             super(itemView);
             weather = itemView.findViewById(R.id.image);
-            hour = itemView.findViewById(R.id.hour);
+            hour = itemView.findViewById(R.id.time_period);
             temp = itemView.findViewById(R.id.temperature);
 
         }

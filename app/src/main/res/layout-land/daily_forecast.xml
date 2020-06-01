@@ -42,10 +42,10 @@
 
         <ImageView
             android:id="@+id/weather_icon"
-            android:layout_width="180dp"
-            android:layout_height="160dp"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/cloud" />
 
     </RelativeLayout>
@@ -62,27 +62,25 @@
             android:id="@+id/temperature_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
             app:srcCompat="@drawable/max_temperature" />
-
 
         <ImageView
             android:id="@+id/wind_speed_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/temperature_image"
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/wind_speed" />
-
 
         <ImageView
             android:id="@+id/rain_image"
             android:layout_width="60dp"
             android:layout_height="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@id/wind_speed_image"
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/rain_drop" />
@@ -102,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="50dp"
             android:paddingLeft="20dp"
             android:text="30C"
             android:textColor="#F8F8FF"

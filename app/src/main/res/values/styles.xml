@@ -1,12 +1,67 @@
 <resources>wordItemView
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="AppWidgetLine" parent="@android:style/Widget">
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+    </style>
+
+    <style name="AppWidgetTemper">
+        <item name="android:textColor">#F8F8FF</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:gravity">right|center_horizontal</item>
+    </style>
+
+    <style name="AppWidgetWeatherIcon">
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_width">91dp</item>
+        <item name="android:layout_height">104dp</item>
+
+    </style>
+
+    <style name="AppWidgetCity">
+        <item name="android:lines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="singleLine">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">#F8F8FF</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:gravity">right|center_horizontal</item>
+    </style>
+
+
+<!--    style for monitor updates-->
+    <style name="AppWidgetSection" parent="@android:style/Widget">
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="AppWidgetLabel" parent="AppWidgetText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppWidgetText" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="AppWidgetButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+<!--    /style for monitor updates-->
 
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
@@ -21,5 +76,4 @@
         <item name="android:background">#ffffff</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
-
 </resources>

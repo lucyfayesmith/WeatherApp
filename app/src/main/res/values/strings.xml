@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Weather App</string>
     <string name="current_location_here">[Current] location here....</string>
+
+    <string name="appwidget_text">WeatherApp</string>
+    <string name="add_widget">Add widget</string>
+    <string name="AppWidgetCityName">Prague</string>
+    <string name="AppWidgetTemper">26°</string>
+    <string name="date_count_format">%1$d @%2$s</string>
     <string name="communicate">Communicate</string>
     <string name="home">Home</string>
     <string name="gallery">Gallery</string>
@@ -33,4 +39,5 @@
     <string name="todays_weather">Today\'s Weather</string>
     <string name="location">Location</string>
     <string name="null_temp">-</string>
+
 </resources>

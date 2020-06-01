@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,7 +34,7 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
     //inflates each individual layout
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder: called.");
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.daily_layout_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -68,7 +67,7 @@ public class DailyRecyclerViewAdapter extends RecyclerView.Adapter<DailyRecycler
         public ViewHolder(View itemView) {
             super(itemView);
             weather = itemView.findViewById(R.id.image);
-            day = itemView.findViewById(R.id.day);
+            day = itemView.findViewById(R.id.time_period);
             temperature = itemView.findViewById(R.id.temperature);
 
         }

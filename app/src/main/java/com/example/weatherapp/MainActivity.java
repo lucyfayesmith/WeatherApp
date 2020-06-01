@@ -13,16 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Application;
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -30,9 +36,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +60,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+//    MyContentProvider myProvider;
+//    Application application = getApplication();
+
     private SharedPreferences pref;
     private static final String TAG = "MainActivity";
     private static final String SELECTED_UNIT = "Metric";
@@ -63,9 +77,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView wind_speed;
     private TextView humidity;
     private TextView temperature;
+    private TextView widgetTemperature;
     private ProgressBar LoadingIndicator;
     private ImageView weather_icon;
     static boolean mTwoPane;
+
+    private String locationProvider;
+    private String temperatureProvider;
+    private String windProvider;
+    private String humidityProvider;
+    private String weather_iconProvider;
+
 
     LocationManager locationManager;
     ConstraintLayout mainLayout;
@@ -76,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
     public static String ONECALL_WEATHER_DATA_JSON;
     private int unitPreference;
 
-    private static WeatherAppRepository repository;
+
+    public static WeatherAppRepository repository;
     private DrawerLayout drawerLayout;
     private int newLocationActivityRequestCode = 1;
     private int deleteLocationActivityRequestCode = 2;
@@ -86,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        myProvider = new MyContentProvider();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pref = getSharedPreferences("my_shared_preferences", MODE_PRIVATE);
@@ -150,18 +175,22 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-        LoadingIndicator = findViewById(R.id.loading_indicator);
-        location = findViewById(R.id.location);
-        wind_speed = findViewById(R.id.wind_speed);
-        humidity = findViewById(R.id.rain_possibility);
-        temperature = findViewById(R.id.temperature);
-        weather_icon = findViewById(R.id.weather_icon);
+        LoadingIndicator = (ProgressBar) findViewById(R.id.loading_indicator);
+        location = (TextView) findViewById(R.id.location);
+        wind_speed = (TextView) findViewById(R.id.wind_speed);
+        humidity = (TextView) findViewById(R.id.rain_possibility);
+        temperature = (TextView) findViewById(R.id.temperature);
+        widgetTemperature = (TextView) findViewById(R.id.AppWidgetTemper);
+        weather_icon = (ImageView) findViewById(R.id.weather_icon);
 
-        //OnClick method that will display activity_detail
-        mainLayout = findViewById(R.id.mainLayout);
-        mainLayout.setOnClickListener(v -> {
-            Log.e(TAG, "onClick: mainLayout");
-            launchActivity();
+        //ONCLICK METHOD THAT WILL DISPLAY EXTRA WEATHER DETAILS
+        mainLayout = (ConstraintLayout) findViewById(R.id.mainLayout);
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: mainLayout");
+                launchActivity();
+            }
         });
 
         currentLocationData();
@@ -333,11 +362,22 @@ public class MainActivity extends AppCompatActivity {
      * @throws JSONException
      */
     public void updateMainScreen() throws JSONException {
+
+
         location.setText(repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
         temperature.setText(repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
         wind_speed.setText(repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
         humidity.setText(repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
         weather_icon.setImageResource(getImageFromDrawable(repository.getIcon(CURRENT_WEATHER_DATA_JSON)));
+
+        doSaving();
+
+        //        set data on widget
+        weatherAppWidgetPhone.widgetTemper = repository.getTemperature(CURRENT_WEATHER_DATA_JSON);
+        weatherAppWidgetPhone.widgetCity = repository.getLocationName(CURRENT_WEATHER_DATA_JSON);
+        weatherAppWidgetPhone.widgetIcon = repository.getIcon(CURRENT_WEATHER_DATA_JSON);
+
+
         getImages();
     }
 
@@ -420,6 +460,62 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+
+
+    private void doSaveContent () throws JSONException{
+        ContentValues values = new ContentValues();
+
+        values.put("location", locationProvider);
+        values.put("temperature", temperatureProvider);
+        values.put("wind", windProvider);
+        values.put("humidity", humidityProvider);
+        values.put("weather_icon", weather_iconProvider);
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    public void doLoading(View view) {
+        Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+        StringBuilder stringBuilder = new StringBuilder();
+
+        while (cr.moveToNext()){
+            String location = cr.getString(1);
+            String temperature = cr.getString(2);
+            String icon = cr.getString(5);
+            stringBuilder.append(location + "    " +temperature+"     "+icon+"\n");
+        }
+
+        Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+
+//        cr.moveToLast();
+//        String location = cr.getString(1);
+//        String temperature = cr.getString(2);
+//        String icon = cr.getString(5);
+
+    }
+
+//    public void doLoadContent (View view){
+//         Cursor cr = getContentResolver().query(MyContentProvider.CONTENT_URI, null, null, null, "_id");
+//         StringBuilder stringBuilder = new StringBuilder();
+//
+//         while (cr.moveToNext()){
+//            int id = cr.getInt(0);
+//            String s1 = cr.getString(1);
+//            String s2 = cr.getString(2);
+//            stringBuilder.append(id + "    " +s1+"     "+s2+"\n");
+//         }
+//         Toast.makeText(this,stringBuilder.toString(),Toast.LENGTH_SHORT).show();
+//
+//    }
+
     /**
      * Method with 3 parallel arrays for the recycler view on the bottom of the screen.
      * days[0] has the name of the next day, days[1] the next next day etc. The other 2 parallel
@@ -477,9 +573,52 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void doSaving(View view) throws JSONException {
+        ContentValues values = new ContentValues();
+
+        values.put("location", repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
+        values.put("temperature", repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
+        values.put("wind", repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
+        values.put("humidity", repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
+        values.put("weather_icon", repository.getIcon(CURRENT_WEATHER_DATA_JSON));
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        String omg = uri.toString();
+        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
+    }
+
+    public void doSaving() throws JSONException {
+        ContentValues values = new ContentValues();
+
+        values.put("location", repository.getLocationName(CURRENT_WEATHER_DATA_JSON));
+        values.put("temperature", repository.getTemperature(CURRENT_WEATHER_DATA_JSON));
+        values.put("wind", repository.getWindSpeed(CURRENT_WEATHER_DATA_JSON,unitPreference));
+        values.put("humidity", repository.getHumidity(CURRENT_WEATHER_DATA_JSON));
+        values.put("weather_icon", repository.getIcon(CURRENT_WEATHER_DATA_JSON));
+
+//        values.put("location", "");
+//        values.put("temperature", "");
+//        values.put("wind", "");
+//        values.put("humidity", "");
+//        values.put("weather_icon", "");
+
+
+        Uri uri = getContentResolver().insert(MyContentProvider.CONTENT_URI, values);
+        String omg = uri.toString();
+//        Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+    }
+
     public static WeatherAppRepository getRepository()
     {
         return repository;
+//        Toast.makeText(getBaseContext(), uri.toString(),Toast.LENGTH_LONG).show();
     }
 
     private class GeocodingTask extends AsyncTask<String, Void, Object> {
