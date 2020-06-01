@@ -6,7 +6,7 @@ call, External library, Database, Broadcast Receivers, Content providers, Adapte
 
 ## Project Requirements: 
 
-By creating a weather app, we were able to incorporate **content providers, adapters, webservice calls and databases**. The user interface incorporates the use of adapters with the implementation of the Daily and Hourly recycler views. This adapter is the bridge between the components of the UI and the weather data. To retrieve the relevant weather information this app makes API calls (web service calls) to [OpenWeatherMap](https://openweathermap.org/api) along with the current user location (CUL). 
+By creating a weather app, we were able to incorporate **threading, content providers, adapters, webservice calls and databases**. The user interface incorporates the use of adapters with the implementation of the Daily and Hourly recycler views. This adapter is the bridge between the components of the UI and the weather data. To retrieve the relevant weather information this app makes API calls (web service calls) to [OpenWeatherMap](https://openweathermap.org/api) along with the current user location (CUL).
 
 There is also the incoporation of a **widget** to accompany the main app that displays the weather based on the CUL. By creating the widget we have been able to include content providers into the structure of our app and the use of background processing.
 
